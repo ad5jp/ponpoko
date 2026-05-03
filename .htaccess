@@ -1,0 +1,39 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # HTTPからHTTPSへリダイレクト
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    RewriteCond %{REQUEST_URI} ^/admin$ [NC]
+    RewriteRule ^(.*)$ /admin/ [R=301,L]
+
+    # 無効なリクエストをすべて index.html にリダイレクト
+    RewriteBase /
+    RewriteRule ^index\.html$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.html [L]
+
+    ErrorDocument 403 /error/404
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Referrer-Policy ヘッダーの設定
+    Header always set Referrer-Policy "same-origin"
+
+    # HSTS ヘッダーの設定
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # キャッシュ有効化（1週間）
+    Header set Cache-Control "public, max-age=604800"
+
+    # HTMLとCSSとJavaScriptファイルはキャッシュさせない
+    <FilesMatch "\.(html|css|js)$">
+    Header set Cache-Control no-cache
+    Header set Pragma no-cache
+    </FilesMatch>
+
+    # X-Frame-Options
+    Header always set X-Frame-Options "sameorigin"
+</IfModule>

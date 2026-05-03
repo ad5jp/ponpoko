@@ -1,0 +1,33 @@
+{
+  "cSpell.words": [
+    "composables",
+    "datetime",
+    "hanbaiTanka",
+    "jotai_code",
+    "kigen",
+    "kijun",
+    "kubun",
+    "meisho_nyuryoku_kubun",
+    "nisugata",
+    "nouhinsaki",
+    "shohi_zei_kubun",
+    "shohi-zei-kubun",
+    "shohiZeiKubun",
+    "shouhin",
+    "tanka_kijun_bi",
+    "tanka-kijun-bi",
+    "tankaKijunBi",
+    "tokuisaki",
+    "torokuJokyo",
+    "uriage",
+    "zeikomi",
+    "zeinuki"
+  ],
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.codeActionsOnSave.mode": "all",
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
