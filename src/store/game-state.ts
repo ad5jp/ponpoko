@@ -6,11 +6,6 @@ export type Event = {
   message: string;
 };
 
-export type Dialog = {
-  image: string | null;
-  message: string;
-};
-
 export type Scene = "start" | "decision" | "result" | "settlement" | "end";
 
 export type GameState = {
@@ -24,6 +19,8 @@ export type GameState = {
   cash: number;
   material: number;
   product: number;
+  strength: number;
+  popularity: number;
   staffs: Staff[];
   // 市場情報
   material_price: number;
@@ -55,13 +52,17 @@ export const gameState = {
       state.cash = 500;
       state.material = 0;
       state.product = 0;
+      state.strength = 1;
+      state.popularity = 1;
       state.staffs = [
         {
           name: param.playerName,
+          image: "chara01",
           isChief: true
         },
         {
           name: "ポン吉",
+          image: "chara02",
           isChief: false
         }
       ];
@@ -100,6 +101,18 @@ export const gameState = {
     decreaseProduct: (state: GameState, count: number) => {
       state.product -= count;
     },
+    increaseStrength: (state: GameState, count: number) => {
+      state.strength += count;
+    },
+    decreaseStrength: (state: GameState, count: number) => {
+      state.strength -= count;
+    },
+    increasePopularity: (state: GameState, count: number) => {
+      state.popularity += count;
+    },
+    decreasePopularity: (state: GameState, count: number) => {
+      state.popularity -= count;
+    },
     // 市場情報
     // 結果情報
     clearResults: (state: GameState) => {
@@ -107,24 +120,6 @@ export const gameState = {
     },
     addResult: (state: GameState, result: Result) => {
       state.results.push(result);
-    }
-  },
-  getters: {
-    dialogs(state: GameState) {
-      const dialogs: Dialog[] = [];
-
-      if (state.scene === "decision") {
-        dialogs.push({
-          image: null,
-          message: state.playerName + "さん、" + state.month + "月になりました。"
-        });
-        dialogs.push({
-          image: null,
-          message: "今月も頑張りましょう"
-        });
-      }
-
-      return dialogs;
     }
   }
 };

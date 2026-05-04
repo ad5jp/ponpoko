@@ -1,4 +1,4 @@
-import { Action } from "./Decision";
+import { Action, MarketingMedia } from "./Decision";
 import { newStaff, Staff } from "./Staff";
 
 export type Result = {
@@ -14,11 +14,15 @@ export type Result = {
   producing_count: number;
   produce_success_count: number;
   produce_failure_count: number;
+  develop_increment: number;
+  marketing_media: MarketingMedia;
+  marketing_increment: number;
+  marketing_price: number;
 };
 
 const defaultResult = {
   staff: newStaff({}),
-  action: "purchase" as Action,
+  action: "none" as Action,
   purchasing_count: 0,
   purchased_count: 0,
   purchased_unit_price: 0,
@@ -28,7 +32,11 @@ const defaultResult = {
   sale_total_price: 0,
   producing_count: 0,
   produce_success_count: 0,
-  produce_failure_count: 0
+  produce_failure_count: 0,
+  develop_increment: 0,
+  marketing_media: "flyer" as MarketingMedia,
+  marketing_increment: 0,
+  marketing_price: 0
 };
 
 export function newResult(params: Partial<Result>): Result {

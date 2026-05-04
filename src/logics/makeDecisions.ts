@@ -1,4 +1,4 @@
-import { Decision } from "@/models/Decision";
+import { Decision, MarketingMedia, marketingMediaCost } from "@/models/Decision";
 import { newResult } from "@/models/Result";
 import { Staff } from "@/models/Staff";
 import { store } from "@/store";
@@ -35,7 +35,7 @@ const sale = (staff: Staff, sale_price: number) => {
     "gameState/addResult",
     newResult({
       staff: staff,
-      action: "purchase",
+      action: "sale",
       sale_unit_price: sale_unit_price,
       sale_count: sale_count,
       sale_total_price: sale_total_price
@@ -54,10 +54,42 @@ const produce = (staff: Staff, produce_count: number) => {
     "gameState/addResult",
     newResult({
       staff: staff,
-      action: "purchase",
+      action: "produce",
       producing_count: producing_count,
       produce_success_count: produce_success_count,
       produce_failure_count: produce_failure_count
+    })
+  );
+};
+
+const develop = (staff: Staff) => {
+  const develop_increment = 1; // TODO ランダムと現在地と能力加味
+
+  store.commit("gameState/increaseStrength", develop_increment);
+  store.commit(
+    "gameState/addResult",
+    newResult({
+      staff: staff,
+      action: "develop",
+      develop_increment: develop_increment
+    })
+  );
+};
+
+const marketing = (staff: Staff, media: MarketingMedia) => {
+  const marketing_increment = marketingMediaCost(media) / 10; // TODO ランダムと現在地と能力加味
+  const marketing_price = marketingMediaCost(media);
+
+  store.commit("gameState/increasePopularity", marketing_increment);
+  store.commit("gameState/decreaseCash", marketing_price);
+  store.commit(
+    "gameState/addResult",
+    newResult({
+      staff: staff,
+      action: "marketing",
+      marketing_media: media,
+      marketing_increment: marketing_increment,
+      marketing_price: marketing_price
     })
   );
 };
@@ -76,11 +108,13 @@ const makeDecisions = (decisions: Decision[]) => {
     if (decisions[i].action === "produce") {
       produce(store.state.gameState.staffs[i], decisions[i].produce_count ?? 1);
     }
+    if (decisions[i].action === "develop") {
+      develop(store.state.gameState.staffs[i]);
+    }
+    if (decisions[i].action === "marketing") {
+      marketing(store.state.gameState.staffs[i], decisions[i].marketing_media ?? "flyer");
+    }
   }
-
-  // TODO 給与と家賃の支払
-
-  store.commit("gameState/toScene", "result");
 };
 
 export default makeDecisions;
