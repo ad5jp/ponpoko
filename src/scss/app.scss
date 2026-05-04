@@ -333,3 +333,40 @@ body {
   width: 100%;
   padding: 1rem 2rem;
 }
+
+.window {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  background: #eee;
+}
+.window-staff {
+  padding: 0.5rem;
+}
+.staff-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 0.5rem;
+}
+.staff-image {
+  width: 30%;
+}
+.staff-info {
+  width: 65%;
+}
+.staff-name {
+  font-weight: bold;
+}
+.staff-skill {
+  font-size: 0.7rem;
+}
+.staff-skill-label {
+  margin-right: 0.5rem;
+}
+.staff-skill-star {
+  color: #cc0;
+}

@@ -23,6 +23,9 @@
   const decision_sale_price = ref(40);
   const decision_produce_count = ref(5);
 
+  // サブウィンドウ表示用ref
+  const show_staff_window = ref(false);
+
   const gameState = computed(() => {
     return store.state.gameState;
   });
@@ -290,8 +293,41 @@
     </main>
 
     <footer v-if="gameState.scene !== 'start'" class="menu-bar">
+      <button class="menu-item" @click="show_staff_window = true">スタッフ</button>
       <button class="menu-item" @click="newGame">NEW GAME</button>
     </footer>
+
+    <div v-if="show_staff_window" class="window window-staff">
+      <div class="staff-list">
+        <div v-for="(staff, i) of gameState.staffs" :key="i" class="staff-row">
+          <img :src="images[staff.image]" alt="" class="staff-image" />
+          <div class="staff-info">
+            <div class="staff-name">{{ staff.name }}</div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">仕入</span>
+              <i v-for="n in staff.purchase_skill" :key="n" class="staff-skill-star">★</i>
+            </div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">生産</span>
+              <i v-for="n in staff.produce_skill" :key="n" class="staff-skill-star">★</i>
+            </div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">販売</span>
+              <i v-for="n in staff.sale_skill" :key="n" class="staff-skill-star">★</i>
+            </div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">開発</span>
+              <i v-for="n in staff.develop_skill" :key="n" class="staff-skill-star">★</i>
+            </div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">宣伝</span>
+              <i v-for="n in staff.marketing_skill" :key="n" class="staff-skill-star">★</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="window-close" @click="show_staff_window = false">閉じる</button>
+    </div>
   </div>
 </template>
 
