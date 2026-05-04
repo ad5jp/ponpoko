@@ -97,13 +97,7 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
       if (result.action === "purchase") {
         dialogs.push({
           image: result.staff.image,
-          message:
-            result.staff.name +
-            "さんが、" +
-            result.purchased_total_price +
-            "円で材料を" +
-            result.purchased_count +
-            "個買いました。"
+          message: `${result.staff.name}さんが、材料を1個 ${result.purchased_unit_price} ドングリで ${result.purchased_count} 個買いました（合計 ${result.purchased_total_price} ドングリ）。`
         });
       }
       if (result.action === "sale") {
@@ -113,7 +107,7 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
             result.staff.name +
             "さんが、" +
             result.sale_total_price +
-            "円で商品を" +
+            "ドングリで商品を" +
             result.sale_count +
             "個売りました。"
         });

@@ -4,31 +4,7 @@ import { Staff } from "@/models/Staff";
 import { nextTutorial } from "@/presentations/Tutorial";
 import { store } from "@/store";
 import { recruit } from "./recruit";
-
-const purchase = (staff: Staff, purchase_count: number) => {
-  const purchasing_count = purchase_count;
-  const purchased_count = purchase_count; // TODO ランダムと能力加味
-  const purchased_unit_price = store.state.gameState.material_price; // TODO ランダムと能力加味
-  const purchased_total_price = purchased_count * purchased_unit_price;
-
-  if (nextTutorial.value === "purchase") {
-    store.commit("gameState/doneTutorial", "purchase");
-  }
-
-  store.commit("gameState/increaseMaterial", purchased_count);
-  store.commit("gameState/decreaseCash", purchased_total_price);
-  store.commit(
-    "gameState/addResult",
-    newResult({
-      staff: staff,
-      action: "purchase",
-      purchasing_count: purchasing_count,
-      purchased_count: purchased_count,
-      purchased_unit_price: purchased_unit_price,
-      purchased_total_price: purchased_total_price
-    })
-  );
-};
+import purchase from "./purchase";
 
 const sale = (staff: Staff, sale_price: number) => {
   const sale_unit_price = sale_price;
