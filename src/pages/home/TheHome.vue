@@ -11,6 +11,7 @@
   import makeDecisions from "@/logics/makeDecisions";
   import { dialogs } from "@/presentations/Dialogs";
   import { hasTutorial, nextTutorial } from "@/presentations/Tutorial";
+  import { settleMonthly } from "@/logics/settle";
 
   // 入力用ref
   const newPlayerName = ref("ぽん");
@@ -105,8 +106,7 @@
 
     if (decision_step.value === gameState.value.staffs.length) {
       makeDecisions(decisions.value);
-
-      // TODO 給与と家賃の支払
+      settleMonthly();
 
       decision_step.value = 0;
       decisions.value = [];
@@ -245,10 +245,48 @@
       </template>
     </main>
 
-    <main v-else-if="gameState.scene === 'result'">
-      <p>今月の結果</p>
-      {{ gameState.results }}
-      <button @click="nextMonth">次へ</button>
+    <main v-else-if="gameState.scene === 'result'" class="scene-result">
+      <h2 class="result-title">今月の成績</h2>
+      <h3 class="result-subtitle">収益</h3>
+      <table class="result-table">
+        <tbody>
+          <tr>
+            <th>売上高</th>
+            <td>{{ gameState.monthly_settlement.sales }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="result-subtitle">費用</h3>
+      <table class="result-table">
+        <tbody>
+          <tr>
+            <th>仕入高</th>
+            <td>{{ gameState.monthly_settlement.purchase }}</td>
+          </tr>
+          <tr>
+            <th>広告宣伝費</th>
+            <td>{{ gameState.monthly_settlement.advertising }}</td>
+          </tr>
+          <tr>
+            <th>人件費</th>
+            <td>{{ gameState.monthly_settlement.labor_cost }}</td>
+          </tr>
+          <tr>
+            <th>地代家賃</th>
+            <td>{{ gameState.monthly_settlement.rent }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="result-subtitle">資産</h3>
+      <table class="result-table">
+        <tbody>
+          <tr>
+            <th>現預金</th>
+            <td>{{ gameState.cash }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button @click="nextMonth" class="result-button">確認</button>
     </main>
 
     <footer v-if="gameState.scene !== 'start'" class="menu-bar">

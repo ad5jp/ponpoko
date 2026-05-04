@@ -1,3 +1,4 @@
+import { newSettlement, Settlement } from "@/logics/settle";
 import { Action } from "@/models/Decision";
 import { Result } from "@/models/Result";
 import { Staff } from "@/models/Staff";
@@ -29,6 +30,8 @@ export type GameState = {
   // 結果情報
   event: Event | null;
   results: Result[];
+  monthly_settlement: Settlement;
+  yearly_settlement: Settlement;
 };
 
 export type NewGameParam = {
@@ -72,6 +75,8 @@ export const gameState = {
       state.material_price = 10;
       state.event = null;
       state.results = [];
+      state.monthly_settlement = newSettlement({});
+      state.yearly_settlement = newSettlement({});
     },
     toScene: (state: GameState, scene: Scene) => {
       state.scene = scene;
@@ -130,6 +135,12 @@ export const gameState = {
     },
     addResult: (state: GameState, result: Result) => {
       state.results.push(result);
+    },
+    setMonthlySettlement: (state: GameState, settlement: Settlement) => {
+      state.monthly_settlement = settlement;
+    },
+    setYearlySettlement: (state: GameState, settlement: Settlement) => {
+      state.yearly_settlement = settlement;
     }
   }
 };
