@@ -4,7 +4,7 @@ import { newStaff, Staff } from "@/models/Staff";
 import { nextTutorial } from "@/presentations/Tutorial";
 import { store } from "@/store";
 
-export const recruit = (staff: Staff, skill: RecruitSkill) => {
+const recruit = (staff: Staff, skill: RecruitSkill) => {
   // チュートリアル中は100%成功する。それ以外は50％。
   let success = nextTutorial.value === "recruit" || Math.random() < 0.5;
 
@@ -70,3 +70,5 @@ const randomLow = () => {
 const randomHigh = () => {
   return Math.ceil(Math.random() * 3) + 2;
 };
+
+export default recruit;

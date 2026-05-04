@@ -1,5 +1,7 @@
 export type Action = "none" | "purchase" | "sale" | "produce" | "develop" | "marketing" | "recruit";
 
+export type ProduceAttitude = "cautiously" | "speedy";
+
 export type MarketingMedia = "flyer" | "web" | "tv";
 
 export function marketingMediaCost(media: MarketingMedia): number {
@@ -45,7 +47,7 @@ export type Decision = {
   action: Action;
   purchase_count: number | null;
   sale_price: number | null;
-  produce_count: number | null;
+  produce_attitude: ProduceAttitude | null;
   marketing_media: MarketingMedia | null;
   recruit_skill: RecruitSkill;
 };
@@ -54,7 +56,7 @@ const defaultDecision = {
   action: "none" as Action,
   purchase_count: null,
   sale_price: null,
-  produce_count: null,
+  produce_attitude: null,
   marketing_media: null,
   recruit_skill: "purchase" as RecruitSkill
 };

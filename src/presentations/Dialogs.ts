@@ -115,8 +115,14 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
       if (result.action === "produce") {
         dialogs.push({
           image: result.staff.image,
-          message: result.staff.name + "さんが、商品を" + result.produce_success_count + "個作りました。"
+          message: result.staff.name + "さんが、商品を" + result.producing_count + "個作りました。"
         });
+        if (result.produce_failure_count) {
+          dialogs.push({
+            image: result.staff.image,
+            message: result.produce_failure_count + "個は不良品でした。"
+          });
+        }
       }
       if (result.action === "develop") {
         if (result.develop_increment > 0) {

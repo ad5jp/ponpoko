@@ -7,7 +7,7 @@
 <script setup lang="ts">
   import { computed, Ref, ref } from "vue";
   import { store } from "@/store";
-  import { Action, newDecision, Decision, MarketingMedia, RecruitSkill } from "@/models/Decision";
+  import { Action, newDecision, Decision, MarketingMedia, RecruitSkill, ProduceAttitude } from "@/models/Decision";
   import makeDecisions from "@/logics/makeDecisions";
   import { dialogs } from "@/presentations/Dialogs";
   import { hasTutorial, nextTutorial } from "@/presentations/Tutorial";
@@ -60,11 +60,11 @@
     nextDecision();
   };
 
-  const decideProduce = () => {
+  const decideProduce = (attitude: ProduceAttitude) => {
     decisions.value.push(
       newDecision({
         action: "produce",
-        produce_count: decision_produce_count.value
+        produce_attitude: attitude
       })
     );
 
@@ -230,18 +230,22 @@
       </template>
       <template v-if="decision_action == 'purchase'">
         <p>現在の材料価格は 10ドングリです。何個買いますか？</p>
-        <input type="number" v-model="decision_purchase_count" />
+        <input type="number" v-model="decision_purchase_count" :disabled="nextTutorial === 'purchase'" />
         <button @click="decidePurchase">決定</button>
+      </template>
+      <template v-if="decision_action == 'produce'">
+        <p>どのように作りますか？</p>
+        <div class="decision-buttons">
+          <button class="decision-button" @click="decideProduce('cautiously')">品質重視で丁寧に</button>
+          <button class="decision-button" @click="decideProduce('speedy')" :disabled="nextTutorial === 'produce'">
+            素早くたくさん
+          </button>
+        </div>
       </template>
       <template v-if="decision_action == 'sale'">
         <p>いくらで売りますか？</p>
-        <input type="number" v-model="decision_sale_price" />
+        <input type="number" v-model="decision_sale_price" :disabled="nextTutorial === 'sale'" />
         <button @click="decideSale">決定</button>
-      </template>
-      <template v-if="decision_action == 'produce'">
-        <p>何個作りますか？</p>
-        <input type="number" v-model="decision_produce_count" />
-        <button @click="decideProduce">決定</button>
       </template>
       <template v-if="decision_action == 'develop'">
         <p>どのように改良しますか？</p>

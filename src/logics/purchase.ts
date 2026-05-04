@@ -2,11 +2,11 @@ import { newResult } from "@/models/Result";
 import { Staff } from "@/models/Staff";
 import { nextTutorial } from "@/presentations/Tutorial";
 import { store } from "@/store";
-import { rate } from "@/utilities/random";
+import { shake } from "@/utilities/random";
 
 const purchase = (staff: Staff, purchasing_count: number) => {
   // 仕入可能数。仕入スキルに比例（ランダムで±25％）。
-  const purchasable_count = rate(5 + staff.purchase_skill * 5, 0.75, 1.25);
+  const purchasable_count = shake(5 + staff.purchase_skill * 5, 25);
   // 実際に買えた数（買おうとした数と仕入可能数の低い方）
   const purchased_count = Math.min(purchasing_count, purchasable_count);
 

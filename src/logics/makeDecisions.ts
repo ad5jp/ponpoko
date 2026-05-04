@@ -3,8 +3,9 @@ import { newResult } from "@/models/Result";
 import { Staff } from "@/models/Staff";
 import { nextTutorial } from "@/presentations/Tutorial";
 import { store } from "@/store";
-import { recruit } from "./recruit";
 import purchase from "./purchase";
+import recruit from "./recruit";
+import produce from "./produce";
 
 const sale = (staff: Staff, sale_price: number) => {
   const sale_unit_price = sale_price;
@@ -25,29 +26,6 @@ const sale = (staff: Staff, sale_price: number) => {
       sale_unit_price: sale_unit_price,
       sale_count: sale_count,
       sale_total_price: sale_total_price
-    })
-  );
-};
-
-const produce = (staff: Staff, produce_count: number) => {
-  const producing_count = produce_count;
-  const produce_success_count = produce_count; // TODO ランダムと能力加味
-  const produce_failure_count = 0; // TODO ランダムと能力加味
-
-  if (nextTutorial.value === "produce") {
-    store.commit("gameState/doneTutorial", "produce");
-  }
-
-  store.commit("gameState/decreaseMaterial", produce_success_count + produce_failure_count);
-  store.commit("gameState/increaseProduct", produce_success_count);
-  store.commit(
-    "gameState/addResult",
-    newResult({
-      staff: staff,
-      action: "produce",
-      producing_count: producing_count,
-      produce_success_count: produce_success_count,
-      produce_failure_count: produce_failure_count
     })
   );
 };
@@ -97,7 +75,7 @@ const makeDecisions = (decisions: Decision[]) => {
       sale(active_staffs[i], decisions[i].sale_price ?? 1);
     }
     if (decisions[i].action === "produce") {
-      produce(active_staffs[i], decisions[i].produce_count ?? 1);
+      produce(active_staffs[i], decisions[i].produce_attitude ?? "cautiously");
     }
     if (decisions[i].action === "develop") {
       develop(active_staffs[i]);
