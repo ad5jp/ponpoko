@@ -10,6 +10,7 @@
   import { Action, newDecision, Decision, MarketingMedia } from "@/models/Decision";
   import makeDecisions from "@/logics/makeDecisions";
   import { dialogs } from "@/presentations/Dialogs";
+  import { hasTutorial, nextTutorial } from "@/presentations/Tutorial";
 
   // 入力用ref
   const newPlayerName = ref("ぽん");
@@ -114,6 +115,11 @@
     dialog_step.value++;
   };
 
+  const newGame = () => {
+    dialog_step.value = 0;
+    store.commit("gameState/toScene", "start");
+  };
+
   // 画像
   const import_images = import.meta.glob("@/assets/*.png", {
     eager: true,
@@ -130,7 +136,7 @@
 
 <template>
   <div class="screen">
-    <header class="status-bar">
+    <header v-if="gameState.scene !== 'start'" class="status-bar">
       <div class="status-item"><label>所持金</label>{{ gameState.cash }} <small>ドングリ</small></div>
       <div class="status-item"><label>商品</label>{{ gameState.product }} <small>個</small></div>
       <div class="status-item"><label>材料</label>{{ gameState.material }} <small>個</small></div>
@@ -150,20 +156,46 @@
       </div>
     </main>
 
-    <main v-else-if="gameState.scene === 'start'">
-      <input type="text" v-model="newPlayerName" />
-      <button @click="startNewGame">ゲーム開始</button>
+    <main v-else-if="gameState.scene === 'start'" class="scene-start">
+      <img :src="images.chara01" class="start-image" alt="" />
+      <label class="start-label">お名前</label>
+      <input v-model="newPlayerName" type="text" class="start-input" />
+      <button class="start-button" @click="startNewGame">決定</button>
     </main>
 
     <main v-else-if="gameState.scene === 'decision'" class="scene-decision">
       <img class="decision-image" :src="images[gameState.staffs[decision_step]?.image]" />
       <template v-if="decision_action === null">
         <p>{{ gameState.staffs[decision_step]?.name }}さんは、今月は何をしますか？</p>
-        <button @click="decision_action = 'purchase'">材料を買う</button>
-        <button @click="decision_action = 'sale'" :disabled="gameState.product === 0">商品を売る</button>
-        <button @click="decision_action = 'produce'" :disabled="gameState.material === 0">商品を作る</button>
-        <button @click="decision_action = 'develop'">商品を改良する</button>
-        <button @click="decision_action = 'marketing'">宣伝をする</button>
+        <button @click="decision_action = 'purchase'" :disabled="hasTutorial && nextTutorial !== 'purchase'">
+          材料を買う
+        </button>
+        <button
+          @click="decision_action = 'produce'"
+          :disabled="gameState.material === 0 || (hasTutorial && nextTutorial !== 'produce')"
+        >
+          商品を生産する
+        </button>
+        <button
+          @click="decision_action = 'sale'"
+          :disabled="gameState.product === 0 || (hasTutorial && nextTutorial !== 'sale')"
+        >
+          商品を売る
+        </button>
+        <button @click="decision_action = 'develop'" :disabled="hasTutorial && nextTutorial !== 'develop'">
+          商品を改良する
+        </button>
+        <button @click="decision_action = 'marketing'" :disabled="hasTutorial && nextTutorial !== 'marketing'">
+          宣伝をする
+        </button>
+        <!--社長限定アクション-->
+        <button
+          v-if="gameState.staffs[decision_step]?.isChief"
+          @click="decision_action = 'recruit'"
+          :disabled="hasTutorial && nextTutorial !== 'recruit'"
+        >
+          スタッフを募集する
+        </button>
       </template>
       <template v-if="decision_action == 'purchase'">
         <p>現在の材料価格は 10ドングリです。何個買いますか？</p>
@@ -199,6 +231,10 @@
       {{ gameState.results }}
       <button @click="nextMonth">次へ</button>
     </main>
+
+    <footer v-if="gameState.scene !== 'start'" class="menu-bar">
+      <button class="menu-item" @click="newGame">NEW GAME</button>
+    </footer>
   </div>
 </template>
 

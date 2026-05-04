@@ -201,6 +201,7 @@ body {
   background: #000;
 }
 .screen {
+  position: relative;
   background: #fff;
   width: 20rem;
   height: 30rem;
@@ -225,6 +226,22 @@ body {
 .status-month small {
   display: block;
   font-size: 0.5rem;
+}
+
+.menu-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #eee;
+  line-height: 1;
+}
+.menu-item {
+  border: none;
+  background: none;
 }
 
 .scene-dialog {
@@ -255,6 +272,25 @@ body {
   border: none;
   background: none;
   color: #fff;
+}
+
+.scene-start {
+  padding: 0.5rem;
+}
+.start-image {
+  display: block;
+  width: 50%;
+  margin: 0 auto 1rem;
+}
+.start-input {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.25rem;
+}
+.start-button {
+  width: 100%;
+  padding: 1rem 2rem;
 }
 
 .scene-decision {

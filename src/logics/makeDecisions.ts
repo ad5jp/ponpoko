@@ -1,6 +1,7 @@
 import { Decision, MarketingMedia, marketingMediaCost } from "@/models/Decision";
 import { newResult } from "@/models/Result";
 import { Staff } from "@/models/Staff";
+import { nextTutorial } from "@/presentations/Tutorial";
 import { store } from "@/store";
 
 const purchase = (staff: Staff, purchase_count: number) => {
@@ -8,6 +9,10 @@ const purchase = (staff: Staff, purchase_count: number) => {
   const purchased_count = purchase_count; // TODO ランダムと能力加味
   const purchased_unit_price = store.state.gameState.material_price; // TODO ランダムと能力加味
   const purchased_total_price = purchased_count * purchased_unit_price;
+
+  if (nextTutorial.value === "purchase") {
+    store.commit("gameState/doneTutorial", "purchase");
+  }
 
   store.commit("gameState/increaseMaterial", purchased_count);
   store.commit("gameState/decreaseCash", purchased_total_price);
@@ -29,6 +34,10 @@ const sale = (staff: Staff, sale_price: number) => {
   const sale_count = store.state.gameState.product; // TODO ランダムと能力と市場加味
   const sale_total_price = sale_unit_price * sale_count;
 
+  if (nextTutorial.value === "sale") {
+    store.commit("gameState/doneTutorial", "sale");
+  }
+
   store.commit("gameState/decreaseProduct", sale_count);
   store.commit("gameState/increaseCash", sale_total_price);
   store.commit(
@@ -47,6 +56,10 @@ const produce = (staff: Staff, produce_count: number) => {
   const producing_count = produce_count;
   const produce_success_count = produce_count; // TODO ランダムと能力加味
   const produce_failure_count = 0; // TODO ランダムと能力加味
+
+  if (nextTutorial.value === "produce") {
+    store.commit("gameState/doneTutorial", "produce");
+  }
 
   store.commit("gameState/decreaseMaterial", produce_success_count + produce_failure_count);
   store.commit("gameState/increaseProduct", produce_success_count);

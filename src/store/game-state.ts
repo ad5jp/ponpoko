@@ -1,3 +1,4 @@
+import { Action } from "@/models/Decision";
 import { Result } from "@/models/Result";
 import { Staff } from "@/models/Staff";
 
@@ -15,6 +16,7 @@ export type GameState = {
   mode: "easy" | "normal" | "real";
   year: number;
   month: number;
+  tutorial: Array<Action>;
   // 会社情報
   cash: number;
   material: number;
@@ -49,6 +51,7 @@ export const gameState = {
       state.scene = "decision";
       state.year = 1;
       state.month = 4;
+      state.tutorial = [];
       state.cash = 500;
       state.material = 0;
       state.product = 0;
@@ -59,11 +62,6 @@ export const gameState = {
           name: param.playerName,
           image: "chara01",
           isChief: true
-        },
-        {
-          name: "ポン吉",
-          image: "chara02",
-          isChief: false
         }
       ];
       state.material_price = 10;
@@ -82,6 +80,10 @@ export const gameState = {
         state.year++;
       }
     },
+    doneTutorial: (state: GameState, tutorial: Action) => {
+      state.tutorial.push(tutorial);
+    },
+
     // 会社情報
     increaseCash: (state: GameState, count: number) => {
       state.cash += count;

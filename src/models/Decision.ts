@@ -1,4 +1,4 @@
-export type Action = "none" | "purchase" | "sale" | "produce" | "develop" | "marketing";
+export type Action = "none" | "purchase" | "sale" | "produce" | "develop" | "marketing" | "recruit";
 
 export type MarketingMedia = "flyer" | "web" | "tv";
 
