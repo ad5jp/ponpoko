@@ -1,8 +1,9 @@
-import { Decision, MarketingMedia, marketingMediaCost } from "@/models/Decision";
+import { Decision, MarketingMedia, marketingMediaCost, RecruitSkill } from "@/models/Decision";
 import { newResult } from "@/models/Result";
 import { Staff } from "@/models/Staff";
 import { nextTutorial } from "@/presentations/Tutorial";
 import { store } from "@/store";
+import { recruit } from "./recruit";
 
 const purchase = (staff: Staff, purchase_count: number) => {
   const purchasing_count = purchase_count;
@@ -110,22 +111,26 @@ const marketing = (staff: Staff, media: MarketingMedia) => {
 const makeDecisions = (decisions: Decision[]) => {
   store.commit("gameState/clearResults");
 
-  for (let i = 0; i < store.state.gameState.staffs.length; i++) {
+  const active_staffs = store.state.gameState.staffs;
+
+  for (let i = 0; i < decisions.length; i++) {
     if (decisions[i].action === "purchase") {
-      console.log(decisions[i].purchase_count);
-      purchase(store.state.gameState.staffs[i], decisions[i]?.purchase_count ?? 1);
+      purchase(active_staffs[i], decisions[i]?.purchase_count ?? 1);
     }
     if (decisions[i].action === "sale") {
-      sale(store.state.gameState.staffs[i], decisions[i].sale_price ?? 1);
+      sale(active_staffs[i], decisions[i].sale_price ?? 1);
     }
     if (decisions[i].action === "produce") {
-      produce(store.state.gameState.staffs[i], decisions[i].produce_count ?? 1);
+      produce(active_staffs[i], decisions[i].produce_count ?? 1);
     }
     if (decisions[i].action === "develop") {
-      develop(store.state.gameState.staffs[i]);
+      develop(active_staffs[i]);
     }
     if (decisions[i].action === "marketing") {
-      marketing(store.state.gameState.staffs[i], decisions[i].marketing_media ?? "flyer");
+      marketing(active_staffs[i], decisions[i].marketing_media ?? "flyer");
+    }
+    if (decisions[i].action === "recruit") {
+      recruit(active_staffs[i], decisions[i].recruit_skill ?? "purchase");
     }
   }
 };

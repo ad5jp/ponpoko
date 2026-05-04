@@ -18,6 +18,8 @@ export type Result = {
   marketing_media: MarketingMedia;
   marketing_increment: number;
   marketing_price: number;
+  recruit_success: boolean;
+  recruit_staff: Staff | null;
 };
 
 const defaultResult = {
@@ -36,7 +38,9 @@ const defaultResult = {
   develop_increment: 0,
   marketing_media: "flyer" as MarketingMedia,
   marketing_increment: 0,
-  marketing_price: 0
+  marketing_price: 0,
+  recruit_success: false,
+  recruit_staff: null
 };
 
 export function newResult(params: Partial<Result>): Result {

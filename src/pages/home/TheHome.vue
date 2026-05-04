@@ -7,7 +7,7 @@
 <script setup lang="ts">
   import { computed, Ref, ref } from "vue";
   import { store } from "@/store";
-  import { Action, newDecision, Decision, MarketingMedia } from "@/models/Decision";
+  import { Action, newDecision, Decision, MarketingMedia, RecruitSkill } from "@/models/Decision";
   import makeDecisions from "@/logics/makeDecisions";
   import { dialogs } from "@/presentations/Dialogs";
   import { hasTutorial, nextTutorial } from "@/presentations/Tutorial";
@@ -82,6 +82,17 @@
       newDecision({
         action: "marketing",
         marketing_media: media
+      })
+    );
+
+    nextDecision();
+  };
+
+  const decideRecruit = (skill: RecruitSkill) => {
+    decisions.value.push(
+      newDecision({
+        action: "recruit",
+        recruit_skill: skill
       })
     );
 
@@ -223,6 +234,14 @@
         <button @click="decideMarketing('flyer')">チラシ（20ドングリ）</button>
         <button @click="decideMarketing('web')">ネット広告（40ドングリ）</button>
         <button @click="decideMarketing('tv')">テレビCM（100ドングリ）</button>
+      </template>
+      <template v-if="decision_action == 'recruit'">
+        <p>どんな人を募集しますか？</p>
+        <button @click="decideRecruit('purchase')">仕入が得意な人</button>
+        <button @click="decideRecruit('produce')">生産が得意な人</button>
+        <button @click="decideRecruit('sale')">販売が得意な人</button>
+        <button @click="decideRecruit('develop')">研究開発が得意な人</button>
+        <button @click="decideRecruit('marketing')">宣伝が得意な人</button>
       </template>
     </main>
 

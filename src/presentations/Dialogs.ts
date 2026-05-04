@@ -11,6 +11,9 @@ export type Dialog = {
 export const dialogs: Ref<Dialog[]> = computed(() => {
   const dialogs: Dialog[] = [];
 
+  /**
+   * スタート画面用ダイアログ
+   */
   if (store.state.gameState.scene === "start") {
     dialogs.push({
       image: null,
@@ -26,6 +29,9 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
     });
   }
 
+  /**
+   * 意思決定画面用ダイアログ
+   */
   if (store.state.gameState.scene === "decision") {
     // 初回のみ
     if (store.state.gameState.year === 1 && store.state.gameState.month === 4) {
@@ -83,6 +89,9 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
     }
   }
 
+  /**
+   * 結果画面用ダイアログ
+   */
   if (store.state.gameState.scene === "result") {
     store.state.gameState.results.forEach((result) => {
       if (result.action === "purchase") {
@@ -140,6 +149,23 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
             result.marketing_increment +
             "上がりました。"
         });
+      }
+      if (result.action === "recruit") {
+        dialogs.push({
+          image: result.staff.image,
+          message: result.staff.name + "さんが、新しいスタッフを募集しました。"
+        });
+        if (result.recruit_success) {
+          dialogs.push({
+            image: result.recruit_staff!.image,
+            message: result.recruit_staff!.name + "さんが入社しました！"
+          });
+        } else {
+          dialogs.push({
+            image: null,
+            message: "残念ながら、応募が来ませんでした。"
+          });
+        }
       }
     });
   }

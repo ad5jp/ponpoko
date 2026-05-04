@@ -61,7 +61,12 @@ export const gameState = {
         {
           name: param.playerName,
           image: "chara01",
-          isChief: true
+          isChief: true,
+          purchase_skill: 3,
+          produce_skill: 3,
+          sale_skill: 3,
+          develop_skill: 3,
+          marketing_skill: 3
         }
       ];
       state.material_price = 10;
@@ -114,6 +119,9 @@ export const gameState = {
     },
     decreasePopularity: (state: GameState, count: number) => {
       state.popularity -= count;
+    },
+    addStaff: (state: GameState, staff: Staff) => {
+      state.staffs.push(staff);
     },
     // 市場情報
     // 結果情報

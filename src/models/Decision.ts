@@ -24,12 +24,30 @@ export function marketingMediaName(media: MarketingMedia): string {
   }
 }
 
+export type RecruitSkill = "purchase" | "produce" | "sale" | "develop" | "marketing";
+
+export function recruitSkillImage(media: RecruitSkill): string {
+  switch (media) {
+    case "purchase":
+      return "chara02";
+    case "produce":
+      return "chara03";
+    case "sale":
+      return "chara04";
+    case "develop":
+      return "chara05";
+    case "marketing":
+      return "chara06";
+  }
+}
+
 export type Decision = {
   action: Action;
   purchase_count: number | null;
   sale_price: number | null;
   produce_count: number | null;
   marketing_media: MarketingMedia | null;
+  recruit_skill: RecruitSkill;
 };
 
 const defaultDecision = {
@@ -37,7 +55,8 @@ const defaultDecision = {
   purchase_count: null,
   sale_price: null,
   produce_count: null,
-  marketing_media: null
+  marketing_media: null,
+  recruit_skill: "purchase" as RecruitSkill
 };
 
 export function newDecision(params: Partial<Decision>): Decision {
