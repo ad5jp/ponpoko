@@ -235,13 +235,16 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
   background: #eee;
   line-height: 1;
 }
 .menu-item {
+  padding: 0.5rem 0.25rem;
   border: none;
   background: none;
+  font-size: 0.5rem;
 }
 
 .scene-dialog {
@@ -300,6 +303,22 @@ body {
   display: block;
   width: 50%;
   margin: 0 auto 1rem;
+}
+.decision-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.decision-button {
+  flex-basis: calc(50% - 0.25rem);
+  padding: 0.25rem 0.5rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+}
+.decision-button:disabled {
+  background: #aaa;
 }
 
 .scene-result {

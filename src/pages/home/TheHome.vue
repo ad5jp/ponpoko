@@ -181,35 +181,52 @@
       <img class="decision-image" :src="images[gameState.staffs[decision_step]?.image]" />
       <template v-if="decision_action === null">
         <p>{{ gameState.staffs[decision_step]?.name }}さんは、今月は何をしますか？</p>
-        <button @click="decision_action = 'purchase'" :disabled="hasTutorial && nextTutorial !== 'purchase'">
-          材料を買う
-        </button>
-        <button
-          @click="decision_action = 'produce'"
-          :disabled="gameState.material === 0 || (hasTutorial && nextTutorial !== 'produce')"
-        >
-          商品を生産する
-        </button>
-        <button
-          @click="decision_action = 'sale'"
-          :disabled="gameState.product === 0 || (hasTutorial && nextTutorial !== 'sale')"
-        >
-          商品を売る
-        </button>
-        <button @click="decision_action = 'develop'" :disabled="hasTutorial && nextTutorial !== 'develop'">
-          商品を改良する
-        </button>
-        <button @click="decision_action = 'marketing'" :disabled="hasTutorial && nextTutorial !== 'marketing'">
-          宣伝をする
-        </button>
-        <!--社長限定アクション-->
-        <button
-          v-if="gameState.staffs[decision_step]?.isChief"
-          @click="decision_action = 'recruit'"
-          :disabled="hasTutorial && nextTutorial !== 'recruit'"
-        >
-          スタッフを募集する
-        </button>
+        <div class="decision-buttons">
+          <button
+            @click="decision_action = 'purchase'"
+            :disabled="hasTutorial && nextTutorial !== 'purchase'"
+            class="decision-button"
+          >
+            材料を買う
+          </button>
+          <button
+            @click="decision_action = 'produce'"
+            :disabled="gameState.material === 0 || (hasTutorial && nextTutorial !== 'produce')"
+            class="decision-button"
+          >
+            商品を生産する
+          </button>
+          <button
+            @click="decision_action = 'sale'"
+            :disabled="gameState.product === 0 || (hasTutorial && nextTutorial !== 'sale')"
+            class="decision-button"
+          >
+            商品を売る
+          </button>
+          <button
+            @click="decision_action = 'develop'"
+            :disabled="hasTutorial && nextTutorial !== 'develop'"
+            class="decision-button"
+          >
+            商品を改良する
+          </button>
+          <button
+            @click="decision_action = 'marketing'"
+            :disabled="hasTutorial && nextTutorial !== 'marketing'"
+            class="decision-button"
+          >
+            宣伝をする
+          </button>
+          <!--社長限定アクション-->
+          <button
+            v-if="gameState.staffs[decision_step]?.isChief"
+            @click="decision_action = 'recruit'"
+            :disabled="hasTutorial && nextTutorial !== 'recruit'"
+            class="decision-button"
+          >
+            スタッフを募集する
+          </button>
+        </div>
       </template>
       <template v-if="decision_action == 'purchase'">
         <p>現在の材料価格は 10ドングリです。何個買いますか？</p>
@@ -228,23 +245,35 @@
       </template>
       <template v-if="decision_action == 'develop'">
         <p>どのように改良しますか？</p>
-        <button @click="decideDevelop">もっと丈夫に</button>
-        <button @click="decideDevelop">もっと軽く</button>
-        <button @click="decideDevelop">もっとカッコよく</button>
+        <div class="decision-buttons">
+          <button class="decision-button" @click="decideDevelop">もっと丈夫に</button>
+          <button class="decision-button" @click="decideDevelop">もっと軽く</button>
+          <button class="decision-button" @click="decideDevelop">もっとカッコよく</button>
+        </div>
       </template>
       <template v-if="decision_action == 'marketing'">
         <p>何で宣伝しますか？</p>
-        <button @click="decideMarketing('flyer')">チラシ（20ドングリ）</button>
-        <button @click="decideMarketing('web')">ネット広告（40ドングリ）</button>
-        <button @click="decideMarketing('tv')">テレビCM（100ドングリ）</button>
+        <div class="decision-buttons">
+          <button class="decision-button" @click="decideMarketing('flyer')">
+            チラシ<br /><small>（20ドングリ）</small>
+          </button>
+          <button class="decision-button" @click="decideMarketing('web')">
+            ネット広告<br /><small>（40ドングリ）</small>
+          </button>
+          <button class="decision-button" @click="decideMarketing('tv')">
+            テレビCM<br /><small>（100ドングリ）</small>
+          </button>
+        </div>
       </template>
       <template v-if="decision_action == 'recruit'">
         <p>どんな人を募集しますか？</p>
-        <button @click="decideRecruit('purchase')">仕入が得意な人</button>
-        <button @click="decideRecruit('produce')">生産が得意な人</button>
-        <button @click="decideRecruit('sale')">販売が得意な人</button>
-        <button @click="decideRecruit('develop')">研究開発が得意な人</button>
-        <button @click="decideRecruit('marketing')">宣伝が得意な人</button>
+        <div class="decision-buttons">
+          <button class="decision-button" @click="decideRecruit('purchase')">仕入が得意な人</button>
+          <button class="decision-button" @click="decideRecruit('produce')">生産が得意な人</button>
+          <button class="decision-button" @click="decideRecruit('sale')">販売が得意な人</button>
+          <button class="decision-button" @click="decideRecruit('develop')">研究開発が得意な人</button>
+          <button class="decision-button" @click="decideRecruit('marketing')">宣伝が得意な人</button>
+        </div>
       </template>
     </main>
 
@@ -294,7 +323,7 @@
 
     <footer v-if="gameState.scene !== 'start'" class="menu-bar">
       <button class="menu-item" @click="show_staff_window = true">スタッフ</button>
-      <button class="menu-item" @click="newGame">NEW GAME</button>
+      <button class="menu-item" @click="newGame">NEW<br />GAME</button>
     </footer>
 
     <div v-if="show_staff_window" class="window window-staff">

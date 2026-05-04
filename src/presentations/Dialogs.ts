@@ -21,7 +21,7 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
     });
     dialogs.push({
       image: null,
-      message: "あなたは今日から、トンカチ生産会社「ポンポコ商会」の社長になります。"
+      message: "あなたは今日から、「ポンポコ商会」の社長になります。"
     });
     dialogs.push({
       image: null,
