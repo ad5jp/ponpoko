@@ -27,6 +27,9 @@ export type GameState = {
   staffs: Staff[];
   // 市場情報
   material_price: number;
+  rival_price: number;
+  rival_strength: number;
+  rival_popularity: number;
   // 結果情報
   event: Event | null;
   results: Result[];
@@ -73,6 +76,9 @@ export const gameState = {
         }
       ];
       state.material_price = 10;
+      state.rival_price = 36;
+      state.rival_strength = 3;
+      state.rival_popularity = 2;
       state.event = null;
       state.results = [];
       state.monthly_settlement = newSettlement({});

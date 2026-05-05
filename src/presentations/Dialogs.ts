@@ -103,14 +103,29 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
       if (result.action === "sale") {
         dialogs.push({
           image: result.staff.image,
-          message:
-            result.staff.name +
-            "さんが、" +
-            result.sale_total_price +
-            "ドングリで商品を" +
-            result.sale_count +
-            "個売りました。"
+          message: `${result.staff.name}さんが、商品を1個 ${result.sale_unit_price} ドングリで ${result.sale_count} 個売りました（合計 ${result.sale_total_price} ドングリ）。`
         });
+        if (result.sale_price_advantage > 3) {
+          dialogs.push({
+            image: result.staff.image,
+            message: "ライバル商品に比べ、とてもお得感があるようです。"
+          });
+        } else if (result.sale_price_advantage > 0) {
+          dialogs.push({
+            image: result.staff.image,
+            message: "ライバルに商品比べ、ややお得感があるようです。"
+          });
+        } else if (result.sale_price_advantage < -3) {
+          dialogs.push({
+            image: result.staff.image,
+            message: "ライバル商品の方が、とてもお得感があるようです。"
+          });
+        } else if (result.sale_price_advantage < 0) {
+          dialogs.push({
+            image: result.staff.image,
+            message: "ライバル商品の方が、ややお得感があるようです。"
+          });
+        }
       }
       if (result.action === "produce") {
         dialogs.push({

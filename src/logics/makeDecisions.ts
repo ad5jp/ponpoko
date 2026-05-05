@@ -1,34 +1,11 @@
 import { Decision, MarketingMedia, marketingMediaCost, RecruitSkill } from "@/models/Decision";
 import { newResult } from "@/models/Result";
 import { Staff } from "@/models/Staff";
-import { nextTutorial } from "@/presentations/Tutorial";
 import { store } from "@/store";
 import purchase from "./purchase";
 import recruit from "./recruit";
 import produce from "./produce";
-
-const sale = (staff: Staff, sale_price: number) => {
-  const sale_unit_price = sale_price;
-  const sale_count = store.state.gameState.product; // TODO ランダムと能力と市場加味
-  const sale_total_price = sale_unit_price * sale_count;
-
-  if (nextTutorial.value === "sale") {
-    store.commit("gameState/doneTutorial", "sale");
-  }
-
-  store.commit("gameState/decreaseProduct", sale_count);
-  store.commit("gameState/increaseCash", sale_total_price);
-  store.commit(
-    "gameState/addResult",
-    newResult({
-      staff: staff,
-      action: "sale",
-      sale_unit_price: sale_unit_price,
-      sale_count: sale_count,
-      sale_total_price: sale_total_price
-    })
-  );
-};
+import sale from "./sale";
 
 const develop = (staff: Staff) => {
   const develop_increment = 1; // TODO ランダムと現在地と能力加味

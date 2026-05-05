@@ -11,6 +11,7 @@ export type Result = {
   sale_unit_price: number;
   sale_count: number;
   sale_total_price: number;
+  sale_price_advantage: number;
   producing_count: number;
   produce_success_count: number;
   produce_failure_count: number;
@@ -32,6 +33,7 @@ const defaultResult = {
   sale_unit_price: 0,
   sale_count: 0,
   sale_total_price: 0,
+  sale_price_advantage: 0,
   producing_count: 0,
   produce_success_count: 0,
   produce_failure_count: 0,

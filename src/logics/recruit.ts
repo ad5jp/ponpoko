@@ -3,6 +3,7 @@ import { newResult } from "@/models/Result";
 import { newStaff, Staff } from "@/models/Staff";
 import { nextTutorial } from "@/presentations/Tutorial";
 import { store } from "@/store";
+import { random_int } from "@/utilities/random";
 
 const recruit = (staff: Staff, skill: RecruitSkill) => {
   // チュートリアル中は100%成功する。それ以外は50％。
@@ -19,11 +20,11 @@ const recruit = (staff: Staff, skill: RecruitSkill) => {
     const new_staff = newStaff({
       name: name(),
       image: recruitSkillImage(skill),
-      purchase_skill: skill === "purchase" ? randomHigh() : randomLow(),
-      produce_skill: skill === "produce" ? randomHigh() : randomLow(),
-      sale_skill: skill === "sale" ? randomHigh() : randomLow(),
-      develop_skill: skill === "develop" ? randomHigh() : randomLow(),
-      marketing_skill: skill === "marketing" ? randomHigh() : randomLow()
+      purchase_skill: skill === "purchase" ? random_int(4, 5) : random_int(1, 2),
+      produce_skill: skill === "produce" ? random_int(4, 5) : random_int(1, 2),
+      sale_skill: skill === "sale" ? random_int(4, 5) : random_int(1, 2),
+      develop_skill: skill === "develop" ? random_int(4, 5) : random_int(1, 2),
+      marketing_skill: skill === "marketing" ? random_int(4, 5) : random_int(1, 2)
     });
 
     store.commit("gameState/addStaff", new_staff);
@@ -59,16 +60,6 @@ const name = (): string => {
   const nominees = dictionary.filter((name) => existing.indexOf(name) === -1);
 
   return nominees[Math.floor(Math.random() * nominees.length)];
-};
-
-// 1〜2 をランダムに返す
-const randomLow = () => {
-  return Math.ceil(Math.random() * 2);
-};
-
-// 3〜5 をランダムに返す
-const randomHigh = () => {
-  return Math.ceil(Math.random() * 3) + 2;
 };
 
 export default recruit;

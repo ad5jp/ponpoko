@@ -20,7 +20,7 @@
   const decision_step = ref(0);
   const decision_action: Ref<Action | null> = ref(null);
   const decision_purchase_count = ref(5);
-  const decision_sale_price = ref(40);
+  const decision_sale_price = ref(30);
   const decision_produce_count = ref(5);
 
   // サブウィンドウ表示用ref
