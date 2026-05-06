@@ -7,7 +7,15 @@
 <script setup lang="ts">
   import { computed, Ref, ref } from "vue";
   import { store } from "@/store";
-  import { Action, newDecision, Decision, MarketingMedia, RecruitSkill, ProduceAttitude } from "@/models/Decision";
+  import {
+    Action,
+    newDecision,
+    Decision,
+    MarketingMedia,
+    RecruitSkill,
+    ProduceAttitude,
+    marketingMediaCost
+  } from "@/models/Decision";
   import makeDecisions from "@/logics/makeDecisions";
   import { dialogs } from "@/presentations/Dialogs";
   import { hasTutorial, nextTutorial } from "@/presentations/Tutorial";
@@ -260,13 +268,13 @@
         <p>何で宣伝しますか？</p>
         <div class="decision-buttons">
           <button class="decision-button" @click="decideMarketing('flyer')">
-            チラシ<br /><small>（20ドングリ）</small>
+            チラシ<br /><small>（{{ marketingMediaCost("flyer") }}ドングリ）</small>
           </button>
           <button class="decision-button" @click="decideMarketing('web')">
-            ネット広告<br /><small>（40ドングリ）</small>
+            ネット広告<br /><small>（{{ marketingMediaCost("web") }}ドングリ）</small>
           </button>
           <button class="decision-button" @click="decideMarketing('tv')">
-            テレビCM<br /><small>（100ドングリ）</small>
+            テレビCM<br /><small>（{{ marketingMediaCost("tv") }}ドングリ）</small>
           </button>
         </div>
       </template>

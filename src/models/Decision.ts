@@ -9,9 +9,9 @@ export function marketingMediaCost(media: MarketingMedia): number {
     case "flyer":
       return 20;
     case "web":
-      return 40;
+      return 50;
     case "tv":
-      return 100;
+      return 150;
   }
 }
 

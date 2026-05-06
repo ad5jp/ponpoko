@@ -158,6 +158,13 @@ const fireEvents = () => {
       store.commit("gameState/addEvent", event);
     }
   }
+
+  // 知名度の低下処理（4以上なら毎月1ずつ下がる、2〜3なら2か月に1度（偶数月に）1ずつ下がる
+  if (store.state.gameState.popularity > 3) {
+    store.commit("gameState/decreasePopularity", 1);
+  } else if (store.state.gameState.popularity > 2 && store.state.gameState.month % 2 === 0) {
+    store.commit("gameState/decreasePopularity", 1);
+  }
 };
 
 export default fireEvents;
