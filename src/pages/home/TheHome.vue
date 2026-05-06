@@ -12,6 +12,7 @@
   import { dialogs } from "@/presentations/Dialogs";
   import { hasTutorial, nextTutorial } from "@/presentations/Tutorial";
   import { settleMonthly } from "@/logics/settle";
+  import fireEvents from "@/logics/fireEvents";
 
   // 入力用ref
   const newPlayerName = ref("ぽん");
@@ -119,7 +120,7 @@
   };
 
   const nextMonth = () => {
-    // TODO イベントとか起こす・3月なら決算になる
+    fireEvents();
     dialog_step.value = 0;
     store.commit("gameState/nextMonth");
     store.commit("gameState/toScene", "decision");

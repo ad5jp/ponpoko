@@ -1,12 +1,8 @@
 import { newSettlement, Settlement } from "@/logics/settle";
 import { Action } from "@/models/Decision";
+import { Event } from "@/models/Event";
 import { Result } from "@/models/Result";
 import { Staff } from "@/models/Staff";
-
-export type Event = {
-  title: string;
-  message: string;
-};
 
 export type Scene = "start" | "decision" | "result" | "settlement" | "end";
 
@@ -31,7 +27,7 @@ export type GameState = {
   rival_strength: number;
   rival_popularity: number;
   // 結果情報
-  event: Event | null;
+  events: Event[];
   results: Result[];
   monthly_settlement: Settlement;
   yearly_settlement: Settlement;
@@ -79,7 +75,7 @@ export const gameState = {
       state.rival_price = 36;
       state.rival_strength = 3;
       state.rival_popularity = 2;
-      state.event = null;
+      state.events = [];
       state.results = [];
       state.monthly_settlement = newSettlement({});
       state.yearly_settlement = newSettlement({});
@@ -135,12 +131,36 @@ export const gameState = {
       state.staffs.push(staff);
     },
     // 市場情報
+    increaseMaterialPrice: (state: GameState, count: number) => {
+      state.material_price += count;
+    },
+    decreaseMaterialPrice: (state: GameState, count: number) => {
+      state.material_price -= count;
+    },
+    increaseRivalPrice: (state: GameState, count: number) => {
+      state.rival_price += count;
+    },
+    decreaseRivalPrice: (state: GameState, count: number) => {
+      state.rival_price -= count;
+    },
+    increaseRivalStrength: (state: GameState, count: number) => {
+      state.rival_strength += count;
+    },
+    decreaseRivalStrength: (state: GameState, count: number) => {
+      state.rival_strength -= count;
+    },
     // 結果情報
     clearResults: (state: GameState) => {
       state.results = [];
     },
     addResult: (state: GameState, result: Result) => {
       state.results.push(result);
+    },
+    clearEvents: (state: GameState) => {
+      state.events = [];
+    },
+    addEvent: (state: GameState, event: Event) => {
+      state.events.push(event);
     },
     setMonthlySettlement: (state: GameState, settlement: Settlement) => {
       state.monthly_settlement = settlement;

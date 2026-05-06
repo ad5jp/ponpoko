@@ -81,7 +81,55 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
         image: null,
         message: store.state.gameState.playerName + "社長、" + store.state.gameState.month + "月になりました。"
       });
-      // TODO イベント
+
+      // イベント
+      if (store.state.gameState.events.length > 0) {
+        store.state.gameState.events.forEach((event) => {
+          if (event.event_type === "rival_price_down") {
+            dialogs.push({
+              image: null,
+              message: "カチカチ工業が商品の値段を " + event.rival_price_down_amount + "ドングリ 下げたようです。"
+            });
+          } else if (event.event_type === "rival_price_up") {
+            dialogs.push({
+              image: null,
+              message: "カチカチ工業が商品の値段を " + event.rival_price_up_amount + "ドングリ 上げたようです。"
+            });
+          } else if (event.event_type === "rival_new_product") {
+            dialogs.push({
+              image: null,
+              message: "カチカチ工業が新商品を発売したようです。"
+            });
+          } else if (event.event_type === "material_price_up") {
+            dialogs.push({
+              image: null,
+              message: "材料の仕入れ価格が上がりました。"
+            });
+          } else if (event.event_type === "material_price_down") {
+            dialogs.push({
+              image: null,
+              message: "材料の仕入れ価格が下がりました。"
+            });
+          } else if (event.event_type === "product_stolen") {
+            dialogs.push({
+              image: null,
+              message: `商品倉庫にどろぼうが入ったようです。商品を${event.product_stolen_amount}個盗まれたようです。`
+            });
+          } else if (event.event_type === "material_burned") {
+            dialogs.push({
+              image: null,
+              message: `材料倉庫で火事が起こりました。材料が${event.material_burned_amount}個燃えてしまいました。`
+            });
+          } else if (event.event_type === "social_media_buzzed") {
+            dialogs.push({
+              image: null,
+              message:
+                "SNSで我が社の商品が話題になっているようです。知名度が上がりました。たくさん販売するチャンスです！"
+            });
+          }
+        });
+      }
+
       dialogs.push({
         image: null,
         message: "今月も頑張りましょう"
