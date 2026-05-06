@@ -6,20 +6,7 @@ import purchase from "./purchase";
 import recruit from "./recruit";
 import produce from "./produce";
 import sale from "./sale";
-
-const develop = (staff: Staff) => {
-  const develop_increment = 1; // TODO ランダムと現在地と能力加味
-
-  store.commit("gameState/increaseStrength", develop_increment);
-  store.commit(
-    "gameState/addResult",
-    newResult({
-      staff: staff,
-      action: "develop",
-      develop_increment: develop_increment
-    })
-  );
-};
+import develop from "./develop";
 
 const marketing = (staff: Staff, media: MarketingMedia) => {
   const marketing_increment = marketingMediaCost(media) / 10; // TODO ランダムと現在地と能力加味
