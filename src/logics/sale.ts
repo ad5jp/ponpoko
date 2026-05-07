@@ -28,9 +28,9 @@ const sale = (staff: Staff, sale_unit_price: number) => {
     }
   }
 
-  // チュートリアル中なら5個固定にする
+  // チュートリアル中なら10個固定にする
   if (nextTutorial.value === "sale") {
-    salable_count = 5;
+    salable_count = 10;
     price_advantage = 0;
   }
 

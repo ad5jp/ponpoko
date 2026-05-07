@@ -8,7 +8,12 @@ const purchase = (staff: Staff, purchasing_count: number) => {
   // 仕入可能数。仕入スキルに比例（ランダムで±25％）。
   const purchasable_count = shake(5 + staff.purchase_skill * 5, 25);
   // 実際に買えた数（買おうとした数と仕入可能数の低い方）
-  const purchased_count = Math.min(purchasing_count, purchasable_count);
+  let purchased_count = Math.min(purchasing_count, purchasable_count);
+
+  // チュートリアル中なら10個固定にする
+  if (nextTutorial.value === "purchase") {
+    purchased_count = 10;
+  }
 
   // ベース単価
   const base_unit_price = store.state.gameState.material_price;

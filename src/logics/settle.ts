@@ -25,11 +25,11 @@ export function newSettlement(params: Partial<Settlement>): Settlement {
 
 export function settleMonthly() {
   // 人件費を発生させる
-  let labor_cost = store.state.gameState.staffs.length * 20;
+  let labor_cost = store.state.gameState.staffs.length * 30;
   store.commit("gameState/decreaseCash", labor_cost);
 
   // 家賃を発生させる
-  let rent = 20;
+  let rent = 40;
   store.commit("gameState/decreaseCash", rent);
 
   // 結果の計算

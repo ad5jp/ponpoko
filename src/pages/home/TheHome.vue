@@ -28,12 +28,13 @@
   const decisions: Ref<Decision[]> = ref([]);
   const decision_step = ref(0);
   const decision_action: Ref<Action | null> = ref(null);
-  const decision_purchase_count = ref(5);
+  const decision_purchase_count = ref(10);
   const decision_sale_price = ref(30);
-  const decision_produce_count = ref(5);
 
   // サブウィンドウ表示用ref
   const show_staff_window = ref(false);
+  const show_market_window = ref(false);
+  const show_purchase_window = ref(false);
 
   const gameState = computed(() => {
     return store.state.gameState;
@@ -238,7 +239,7 @@
         </div>
       </template>
       <template v-if="decision_action == 'purchase'">
-        <p>現在の材料価格は 10ドングリです。何個買いますか？</p>
+        <p>現在の材料価格は {{ gameState.material_price }}ドングリです。何個買いますか？</p>
         <input type="number" v-model="decision_purchase_count" :disabled="nextTutorial === 'purchase'" />
         <button @click="decidePurchase">決定</button>
       </template>
@@ -336,6 +337,8 @@
 
     <footer v-if="gameState.scene !== 'start'" class="menu-bar">
       <button class="menu-item" @click="show_staff_window = true">スタッフ</button>
+      <button class="menu-item" @click="show_market_window = true">販売市場</button>
+      <button class="menu-item" @click="show_purchase_window = true">調達市場</button>
       <button class="menu-item" @click="newGame">NEW<br />GAME</button>
     </footer>
 
@@ -369,6 +372,56 @@
         </div>
       </div>
       <button class="window-close" @click="show_staff_window = false">閉じる</button>
+    </div>
+
+    <!-- TODO class振り直し 画像変更 -->
+    <div v-if="show_market_window" class="window window-staff">
+      <div class="staff-list">
+        <div class="staff-row">
+          <img :src="images.chara01" alt="" class="staff-image" />
+          <div class="staff-info">
+            <div class="staff-name">ぽんぽこ商会</div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">販売価格</span>
+              <span>{{ decision_sale_price }}</span>
+            </div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">商品力</span>
+              <i v-for="n in gameState.strength" :key="n" class="staff-skill-star">★</i>
+            </div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">知名度</span>
+              <i v-for="n in gameState.popularity" :key="n" class="staff-skill-star">★</i>
+            </div>
+          </div>
+        </div>
+        <div class="staff-row">
+          <img :src="images.chara05" alt="" class="staff-image" />
+          <div class="staff-info">
+            <div class="staff-name">カチカチ工業</div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">販売価格</span>
+              <span>{{ gameState.rival_price }}</span>
+            </div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">商品力</span>
+              <i v-for="n in gameState.rival_strength" :key="n" class="staff-skill-star">★</i>
+            </div>
+            <div class="staff-skill">
+              <span class="staff-skill-label">知名度</span>
+              <i v-for="n in gameState.rival_popularity" :key="n" class="staff-skill-star">★</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="window-close" @click="show_market_window = false">閉じる</button>
+    </div>
+
+    <!-- TODO デザイン調整 -->
+    <div v-if="show_purchase_window" class="window window-staff">
+      <p>材料の価格: {{ gameState.material_price }}</p>
+      <p>材料の供給: 通常</p>
+      <button class="window-close" @click="show_purchase_window = false">閉じる</button>
     </div>
   </div>
 </template>
