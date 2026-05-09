@@ -18,8 +18,6 @@ export type GameState = {
   cash: number;
   material: number;
   product: number;
-  sale_price: number;
-  purchase_count: number;
   strength: number;
   popularity: number;
   staffs: Staff[];
@@ -33,6 +31,10 @@ export type GameState = {
   results: Result[];
   monthly_settlement: Settlement;
   yearly_settlement: Settlement;
+  // その他
+  sale_price: number;
+  purchase_count: number;
+  last_staff_code: number;
 };
 
 export type NewGameParam = {
@@ -59,12 +61,11 @@ export const gameState = {
       state.cash = 500;
       state.material = 0;
       state.product = 0;
-      state.sale_price = 30;
-      state.purchase_count = 10;
       state.strength = 1;
       state.popularity = 1;
       state.staffs = [
         {
+          code: 1,
           name: param.playerName,
           image: "chara01",
           isChief: true,
@@ -83,6 +84,9 @@ export const gameState = {
       state.results = [];
       state.monthly_settlement = newSettlement({});
       state.yearly_settlement = newSettlement({});
+      state.sale_price = 30;
+      state.purchase_count = 10;
+      state.last_staff_code = 1;
     },
     toScene: (state: GameState, scene: Scene) => {
       state.scene = scene;
@@ -119,12 +123,6 @@ export const gameState = {
     decreaseProduct: (state: GameState, count: number) => {
       state.product -= count;
     },
-    setSalePrice: (state: GameState, price: number) => {
-      state.sale_price = price;
-    },
-    setPurchaseCount: (state: GameState, count: number) => {
-      state.purchase_count = count;
-    },
     increaseStrength: (state: GameState, count: number) => {
       state.strength += count;
     },
@@ -139,6 +137,9 @@ export const gameState = {
     },
     addStaff: (state: GameState, staff: Staff) => {
       state.staffs.push(staff);
+    },
+    removeStaff: (state: GameState, staff: Staff) => {
+      state.staffs = state.staffs.filter((row) => row.code !== staff.code);
     },
     // 市場情報
     increaseMaterialPrice: (state: GameState, count: number) => {
@@ -177,6 +178,16 @@ export const gameState = {
     },
     setYearlySettlement: (state: GameState, settlement: Settlement) => {
       state.yearly_settlement = settlement;
+    },
+    // その他
+    setSalePrice: (state: GameState, price: number) => {
+      state.sale_price = price;
+    },
+    setPurchaseCount: (state: GameState, count: number) => {
+      state.purchase_count = count;
+    },
+    setLastStaffCode: (state: GameState, code: number) => {
+      state.last_staff_code = code;
     }
   }
 };

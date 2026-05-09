@@ -1,6 +1,6 @@
 import { newEvent } from "@/models/Event";
 import { store } from "@/store";
-import { random_float, random_int } from "@/utilities/random";
+import { chance, random_float, random_int } from "@/utilities/random";
 
 // ライバル商品の値下げ
 const eventRivalPriceDown = () => {
@@ -147,6 +147,26 @@ const fireEvents = () => {
   if (store.state.gameState.year === 1 && store.state.gameState.month >= 4 && store.state.gameState.month <= 9) {
     return;
   }
+
+  // 各社員は5%の確率で退職する
+  store.state.gameState.staffs.forEach((staff) => {
+    console.log(staff.code);
+    if (staff.isChief) {
+      return;
+    }
+
+    if (chance(5)) {
+      store.commit("gameState/removeStaff", staff);
+      console.log("RESIGN");
+      store.commit(
+        "gameState/addEvent",
+        newEvent({
+          event_type: "staff_resigned",
+          staff_resigned: staff
+        })
+      );
+    }
+  });
 
   // ランダムイベント抽選
   const draw = random_int(0, lottery.length - 1);

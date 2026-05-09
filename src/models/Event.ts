@@ -1,3 +1,5 @@
+import { Staff } from "./Staff";
+
 export type EventType =
   | "none"
   | "rival_price_down"
@@ -7,7 +9,8 @@ export type EventType =
   | "material_price_down"
   | "product_stolen"
   | "material_burned"
-  | "social_media_buzzed";
+  | "social_media_buzzed"
+  | "staff_resigned";
 
 export type Event = {
   event_type: EventType;
@@ -15,6 +18,7 @@ export type Event = {
   rival_price_up_amount: number | null;
   product_stolen_amount: number | null;
   material_burned_amount: number | null;
+  staff_resigned: Staff | null;
 };
 
 const defaultEvent = {
@@ -22,7 +26,8 @@ const defaultEvent = {
   rival_price_down_amount: null,
   rival_price_up_amount: null,
   product_stolen_amount: null,
-  material_burned_amount: null
+  material_burned_amount: null,
+  staff_resigned: null
 };
 
 export function newEvent(params: Partial<Event>): Event {

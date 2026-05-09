@@ -1,6 +1,7 @@
 export type StaffImage = "chara01" | "chara02" | "chara03" | "chara04" | "chara05" | "chara06";
 
 export type Staff = {
+  code: number;
   name: string;
   image: string;
   isChief: boolean;
@@ -12,6 +13,7 @@ export type Staff = {
 };
 
 const defaultStaff = {
+  code: 0,
   name: "",
   image: "chara01",
   isChief: false,

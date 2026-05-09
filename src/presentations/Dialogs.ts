@@ -162,6 +162,15 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
               image: "chara00-joyful",
               message: "知名度が上がりました。商品をたくさん販売するチャンスです！"
             });
+          } else if (event.event_type === "staff_resigned") {
+            dialogs.push({
+              image: "chara00-sad",
+              message: event.staff_resigned!.name + "さんが退職してしまいました。"
+            });
+            dialogs.push({
+              image: "chara00-sad",
+              message: "またスタッフを募集しないといけませんね。"
+            });
           }
         });
       }

@@ -95,7 +95,7 @@
         <div v-for="(staff, i) of gameState.staffs" :key="i" class="staff-row">
           <img :src="image(staff.image)" alt="" class="staff-image" />
           <div class="staff-info">
-            <div class="staff-name">{{ staff.name }}</div>
+            <div class="staff-name">#{{ staff.code }} {{ staff.name }}</div>
             <div class="staff-skill">
               <span class="staff-skill-label">仕入</span>
               <i v-for="n in staff.purchase_skill" :key="n" class="staff-skill-star">★</i>

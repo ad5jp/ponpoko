@@ -41,27 +41,27 @@
       <tbody>
         <tr class="highlight">
           <th>売上高</th>
-          <td>{{ gameState.yearly_settlement.sales }}</td>
+          <td>{{ gameState.monthly_settlement.sales }}</td>
         </tr>
         <tr>
           <th>売上原価</th>
-          <td>{{ gameState.yearly_settlement.sales_cost }}</td>
+          <td>{{ gameState.monthly_settlement.sales_cost }}</td>
         </tr>
         <tr class="highlight">
           <th>粗利益</th>
-          <td>{{ gross_profit(gameState.yearly_settlement) }}</td>
+          <td>{{ gross_profit(gameState.monthly_settlement) }}</td>
         </tr>
         <tr>
           <th>販管費</th>
-          <td>{{ general_expense(gameState.yearly_settlement) }}</td>
+          <td>{{ general_expense(gameState.monthly_settlement) }}</td>
         </tr>
         <tr>
           <th>特別損失</th>
-          <td>{{ gameState.yearly_settlement.special_expense }}</td>
+          <td>{{ gameState.monthly_settlement.special_expense }}</td>
         </tr>
         <tr class="highlight">
           <th>経常利益</th>
-          <td>{{ ordinary_income(gameState.yearly_settlement) }}</td>
+          <td>{{ ordinary_income(gameState.monthly_settlement) }}</td>
         </tr>
       </tbody>
     </table>
@@ -71,15 +71,15 @@
       <tbody>
         <tr>
           <th>広告宣伝費</th>
-          <td>{{ gameState.yearly_settlement.advertising }}</td>
+          <td>{{ gameState.monthly_settlement.advertising }}</td>
         </tr>
         <tr>
           <th>人件費</th>
-          <td>{{ gameState.yearly_settlement.labor_cost }}</td>
+          <td>{{ gameState.monthly_settlement.labor_cost }}</td>
         </tr>
         <tr>
           <th>地代家賃</th>
-          <td>{{ gameState.yearly_settlement.rent }}</td>
+          <td>{{ gameState.monthly_settlement.rent }}</td>
         </tr>
       </tbody>
     </table>
@@ -89,19 +89,19 @@
       <tbody>
         <tr>
           <th>現金</th>
-          <td>{{ gameState.yearly_settlement.cash }}</td>
+          <td>{{ gameState.monthly_settlement.cash }}</td>
         </tr>
         <tr>
           <th>原材料</th>
-          <td>{{ gameState.yearly_settlement.material }}</td>
+          <td>{{ gameState.monthly_settlement.material }}</td>
         </tr>
         <tr>
           <th>商品</th>
-          <td>{{ gameState.yearly_settlement.product }}</td>
+          <td>{{ gameState.monthly_settlement.product }}</td>
         </tr>
         <tr class="highlight">
           <th>純資産</th>
-          <td>{{ net_assets(gameState.yearly_settlement) }}</td>
+          <td>{{ net_assets(gameState.monthly_settlement) }}</td>
         </tr>
       </tbody>
     </table>

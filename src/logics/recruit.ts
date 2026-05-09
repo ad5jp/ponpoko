@@ -16,8 +16,13 @@ const recruit = (staff: Staff, skill: RecruitSkill) => {
 
   if (success) {
     // 成功時
+    // 社員番号採番
+    const staff_code = store.state.gameState.last_staff_code + 1;
+    store.commit("gameState/setLastStaffCode", staff_code);
+
     // スタッフを作成
     const new_staff = newStaff({
+      code: staff_code,
       name: name(),
       image: recruitSkillImage(skill),
       purchase_skill: skill === "purchase" ? random_int(4, 5) : random_int(1, 2),
