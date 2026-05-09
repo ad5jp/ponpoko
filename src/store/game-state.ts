@@ -4,7 +4,7 @@ import { Event } from "@/models/Event";
 import { Result } from "@/models/Result";
 import { Staff } from "@/models/Staff";
 
-export type Scene = "start" | "decision" | "result" | "settlement" | "end";
+export type Scene = "start" | "decision" | "result" | "settlement" | "game_over" | "finish";
 
 export type GameState = {
   // ゲーム状態
@@ -48,6 +48,11 @@ export const gameState = {
     playerName: "ぽん",
     scene: "start",
     mode: "easy"
+  },
+  getters: {
+    wholeMonths: (state: GameState) => {
+      return (state.year - 1) * 12 + (state.month < 4 ? state.month + 9 : state.month - 3);
+    }
   },
   mutations: {
     // ゲーム状態

@@ -86,6 +86,17 @@
 
     <TheHomeSettlement v-else-if="gameState.scene === 'settlement'" @close="resetDialog" />
 
+    <main v-else-if="gameState.scene === 'game_over'" class="scene-game-over">
+      <img :src="image('chara00-sad')" class="game-over-image" alt="" />
+      <h2 class="game-over-title">倒産</h2>
+      <div class="game-over-result">
+        記録：{{ gameState.year }}年目 {{ gameState.month }}月（{{ store.getters["gameState/wholeMonths"] }}ヶ月）
+      </div>
+      <div class="game-over-restart">
+        <button @click="newGame">もう一度チャレンジする</button>
+      </div>
+    </main>
+
     <footer v-if="gameState.scene !== 'start'" class="menu-bar">
       <button class="menu-item" @click="show_staff_window = true">スタッフ</button>
       <button class="menu-item" @click="show_market_window = true">販売市場</button>

@@ -351,5 +351,23 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
     });
   }
 
+  /**
+   * 倒産画面用ダイアログ
+   */
+  if (store.state.gameState.scene === "game_over") {
+    dialogs.push({
+      image: null,
+      message: store.state.gameState.playerName + "社長・・・"
+    });
+    dialogs.push({
+      image: "chara00-sad",
+      message: "お金がなくなってしまいました・・・"
+    });
+    dialogs.push({
+      image: "chara00-sad",
+      message: "残念ながら、我が社は倒産です・・・"
+    });
+  }
+
   return dialogs;
 });

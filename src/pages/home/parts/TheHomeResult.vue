@@ -17,9 +17,11 @@
   });
 
   const nextMonth = () => {
-    // TODO 残金マイナスなら終了
-
-    if (gameState.value.month === 3) {
+    if (gameState.value.cash < 0) {
+      // 現金がマイナスになったらゲームオーバー
+      store.commit("gameState/toScene", "game_over");
+      emit("close");
+    } else if (gameState.value.month === 3) {
       // 3月なら決算へ
       store.commit("gameState/toScene", "settlement");
       emit("close");
