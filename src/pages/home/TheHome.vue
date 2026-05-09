@@ -12,6 +12,7 @@
   import TheHomeDecision from "./parts/TheHomeDecision.vue";
   import { image, loadImageStore } from "@/utilities/image";
   import TheHomeSettlement from "./parts/TheHomeSettlement.vue";
+  import { net_assets } from "@/logics/settle";
 
   // 入力用ref
   const newPlayerName = ref("ぽん");
@@ -85,6 +86,21 @@
     <TheHomeResult v-else-if="gameState.scene === 'result'" @close="resetDialog" />
 
     <TheHomeSettlement v-else-if="gameState.scene === 'settlement'" @close="resetDialog" />
+
+    <main v-else-if="gameState.scene === 'finish'" class="scene-finish">
+      <img :src="image('chara00-joyful')" class="finish-image" alt="" />
+      <h2 class="finish-title">任期満了！</h2>
+      <div class="finish-result">
+        記録：純資産 {{ net_assets(gameState.yearly_settlement) }} ドングリ
+        <span v-if="net_assets(gameState.yearly_settlement) >= 500"
+          >（＋{{ net_assets(gameState.yearly_settlement) - 500 }}）</span
+        >
+        <span v-else>（ー{{ 500 - net_assets(gameState.yearly_settlement) }}）</span>
+      </div>
+      <div class="finish-restart">
+        <button @click="newGame">もう一度チャレンジする</button>
+      </div>
+    </main>
 
     <main v-else-if="gameState.scene === 'game_over'" class="scene-game-over">
       <img :src="image('chara00-sad')" class="game-over-image" alt="" />

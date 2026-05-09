@@ -18,10 +18,16 @@
 
   // 次の年度へ
   const nextMonth = () => {
-    fireEvents();
-    store.commit("gameState/nextMonth");
-    store.commit("gameState/toScene", "decision");
-    emit("close");
+    if (gameState.value.year === 5) {
+      // 5年目で終了
+      store.commit("gameState/toScene", "finish");
+      emit("close");
+    } else {
+      fireEvents();
+      store.commit("gameState/nextMonth");
+      store.commit("gameState/toScene", "decision");
+      emit("close");
+    }
   };
 </script>
 

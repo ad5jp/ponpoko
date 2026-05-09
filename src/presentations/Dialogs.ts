@@ -2,7 +2,7 @@ import { marketingMediaName } from "@/models/Decision";
 import { store } from "@/store";
 import { computed, Ref } from "vue";
 import { hasTutorial, nextTutorial } from "./Tutorial";
-import { ordinary_income } from "@/logics/settle";
+import { net_assets, ordinary_income } from "@/logics/settle";
 
 export type Dialog = {
   image: string | null;
@@ -232,10 +232,17 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
         });
       }
       if (result.action === "sale") {
-        dialogs.push({
-          image: result.staff.image,
-          message: `${result.staff.name}さんが、商品を1個 ${result.sale_unit_price} ドングリで ${result.sale_count} 個売りました（合計 ${result.sale_total_price} ドングリ）。`
-        });
+        if (result.sale_count > 0) {
+          dialogs.push({
+            image: result.staff.image,
+            message: `${result.staff.name}さんが、商品を1個 ${result.sale_unit_price} ドングリで ${result.sale_count} 個売りました（合計 ${result.sale_total_price} ドングリ）。`
+          });
+        } else {
+          dialogs.push({
+            image: result.staff.image,
+            message: `${result.staff.name}さんは、商品を1個 ${result.sale_unit_price} ドングリで売ろうとしましたが、売れませんでした。`
+          });
+        }
         if (result.sale_price_advantage > 4) {
           dialogs.push({
             image: result.staff.image,
@@ -345,9 +352,46 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
         message: "今年は、" + income * -1 + "ドングリの赤字になってしまいました・・・"
       });
     }
+    if (store.state.gameState.year < 5) {
+      dialogs.push({
+        image: null,
+        message: "来年も頑張りましょう。"
+      });
+    }
+  }
+
+  /**
+   * 満了画面用ダイアログ
+   */
+  if (store.state.gameState.scene === "finish") {
     dialogs.push({
       image: null,
-      message: "来年も頑張りましょう。"
+      message: store.state.gameState.playerName + "社長・・・"
+    });
+    dialogs.push({
+      image: "chara00-joyful",
+      message: "これにて、" + store.state.gameState.playerName + "社長の任期が終了しました。"
+    });
+    const assets = net_assets(store.state.gameState.yearly_settlement);
+    if (assets >= 1000) {
+      dialogs.push({
+        image: "chara00-joyful",
+        message: "ぽんぽこ商会を、これほどまでに大きく発展させていただき、ありがとうございます！"
+      });
+    } else if (assets >= 500) {
+      dialogs.push({
+        image: "chara00-joyful",
+        message: "ぽんぽこ商会を成長させていただき、ありがとうございます！"
+      });
+    } else {
+      dialogs.push({
+        image: "chara00-joyful",
+        message: "残念ながら、結果はマイナスではありますが、会社を継続できること自体が、素晴らしいと思います。"
+      });
+    }
+    dialogs.push({
+      image: "chara00-joyful",
+      message: "5年間おつかれさまでした！"
     });
   }
 
