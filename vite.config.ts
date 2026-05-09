@@ -29,13 +29,17 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   
   return {
+    base: "/ponpoko/",
     plugins: [
       vue(),
       dynamicFavicon(env),
       copy({
-        targets: [{ src: ".htaccess", dest: "dist" }]
+        targets: [{ src: ".htaccess", dest: "docs" }]
       })
     ],
+    build: {
+      outDir: "docs"
+    },
     server: {
       host: "0.0.0.0", // 全てのネットワークインターフェースでアクセスを許可するために 0.0.0.0 を使用
       port: 8080,
