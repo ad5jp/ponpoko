@@ -18,6 +18,8 @@ export type GameState = {
   cash: number;
   material: number;
   product: number;
+  sale_price: number;
+  purchase_count: number;
   strength: number;
   popularity: number;
   staffs: Staff[];
@@ -57,6 +59,8 @@ export const gameState = {
       state.cash = 500;
       state.material = 0;
       state.product = 0;
+      state.sale_price = 30;
+      state.purchase_count = 10;
       state.strength = 1;
       state.popularity = 1;
       state.staffs = [
@@ -114,6 +118,12 @@ export const gameState = {
     },
     decreaseProduct: (state: GameState, count: number) => {
       state.product -= count;
+    },
+    setSalePrice: (state: GameState, price: number) => {
+      state.sale_price = price;
+    },
+    setPurchaseCount: (state: GameState, count: number) => {
+      state.purchase_count = count;
     },
     increaseStrength: (state: GameState, count: number) => {
       state.strength += count;

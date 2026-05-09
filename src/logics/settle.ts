@@ -15,7 +15,6 @@ export type Settlement = {
   // 売上原価
   sales_cost: number; // 売上原価
   // 販管費
-  purchase: number; // 仕入髙（使わない）
   advertising: number; // 宣伝広告費
   labor_cost: number; // 人件費
   rent: number; // 地代家賃
@@ -37,7 +36,6 @@ const defaultSettlement = {
   // 売上原価
   sales_cost: 0, // 売上原価
   // 販管費
-  purchase: 0, // 仕入髙（使わない）
   advertising: 0, // 宣伝広告費
   labor_cost: 0, // 人件費
   rent: 0, // 地代家賃
@@ -66,7 +64,6 @@ export function settleMonthly() {
   // 売上原価
   let sales_cost = 0; // 売上原価
   // 販管費
-  let purchase = 0; // 仕入髙（使わない）
   let advertising = 0; // 宣伝広告費
   let labor_cost = 0; // 人件費
   let rent = 0; // 地代家賃
@@ -137,7 +134,6 @@ export function settleMonthly() {
     product_count,
     sales,
     sales_cost,
-    purchase,
     advertising,
     labor_cost,
     rent,
@@ -154,7 +150,6 @@ export function settleMonthly() {
     product_count,
     sales: store.state.gameState.yearly_settlement.sales + sales,
     sales_cost: store.state.gameState.yearly_settlement.sales_cost + sales_cost,
-    purchase: store.state.gameState.yearly_settlement.purchase + purchase,
     advertising: store.state.gameState.yearly_settlement.advertising + advertising,
     labor_cost: store.state.gameState.yearly_settlement.labor_cost + labor_cost,
     rent: store.state.gameState.yearly_settlement.rent + rent,
