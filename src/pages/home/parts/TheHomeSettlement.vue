@@ -1,6 +1,6 @@
 <script lang="ts">
   export default {
-    name: "TheHomeResult"
+    name: "TheHomeSettlement"
   };
 </script>
 
@@ -16,26 +16,18 @@
     return store.state.gameState;
   });
 
+  // 次の年度へ
   const nextMonth = () => {
-    // TODO 残金マイナスなら終了
-
-    if (gameState.value.month === 3) {
-      // 3月なら決算へ
-      store.commit("gameState/toScene", "settlement");
-      emit("close");
-    } else {
-      // 3月以外は次の月へ
-      fireEvents();
-      store.commit("gameState/nextMonth");
-      store.commit("gameState/toScene", "decision");
-      emit("close");
-    }
+    fireEvents();
+    store.commit("gameState/nextMonth");
+    store.commit("gameState/toScene", "decision");
+    emit("close");
   };
 </script>
 
 <template>
   <main class="scene-result">
-    <h2 class="result-title">今月の結果</h2>
+    <h2 class="result-title">決算（{{ gameState.year }}年目）</h2>
     <h3 class="result-subtitle">売上・費用・利益（PL）</h3>
     <table class="result-table">
       <tbody>

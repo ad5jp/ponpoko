@@ -2,6 +2,7 @@ import { marketingMediaName } from "@/models/Decision";
 import { store } from "@/store";
 import { computed, Ref } from "vue";
 import { hasTutorial, nextTutorial } from "./Tutorial";
+import { ordinary_income } from "@/logics/settle";
 
 export type Dialog = {
   image: string | null;
@@ -265,6 +266,41 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
           });
         }
       }
+    });
+  }
+
+  /**
+   * 決算画面用ダイアログ
+   */
+  if (store.state.gameState.scene === "settlement") {
+    dialogs.push({
+      image: null,
+      message: store.state.gameState.playerName + "社長、おつかれさまです！"
+    });
+    dialogs.push({
+      image: null,
+      message: store.state.gameState.year + "年目が終わりました。"
+    });
+    const income = ordinary_income(store.state.gameState.yearly_settlement);
+    if (income >= 100) {
+      dialogs.push({
+        image: "chara00-joyful",
+        message: "今年は、" + income + "ドングリの黒字になりました！"
+      });
+    } else if (income >= 0) {
+      dialogs.push({
+        image: null,
+        message: "今年は、" + income + "ドングリの黒字になりました。"
+      });
+    } else {
+      dialogs.push({
+        image: null,
+        message: "今年は、" + income * -1 + "ドングリの赤字になってしまいました・・・"
+      });
+    }
+    dialogs.push({
+      image: null,
+      message: "来年も頑張りましょう。"
     });
   }
 

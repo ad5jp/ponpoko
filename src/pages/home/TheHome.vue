@@ -11,6 +11,7 @@
   import TheHomeResult from "./parts/TheHomeResult.vue";
   import TheHomeDecision from "./parts/TheHomeDecision.vue";
   import { image, loadImageStore } from "@/utilities/image";
+  import TheHomeSettlement from "./parts/TheHomeSettlement.vue";
 
   // 入力用ref
   const newPlayerName = ref("ぽん");
@@ -79,6 +80,8 @@
     <TheHomeDecision v-else-if="gameState.scene === 'decision'" @close="resetDialog" />
 
     <TheHomeResult v-else-if="gameState.scene === 'result'" @close="resetDialog" />
+
+    <TheHomeSettlement v-else-if="gameState.scene === 'settlement'" @close="resetDialog" />
 
     <footer v-if="gameState.scene !== 'start'" class="menu-bar">
       <button class="menu-item" @click="show_staff_window = true">スタッフ</button>
