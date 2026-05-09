@@ -3,7 +3,7 @@ import { store } from "@/store";
 import { computed, Ref } from "vue";
 
 // チュートリアルの一覧
-const tutorials: Action[] = ["purchase", "produce", "sale", "recruit"];
+const tutorials: Action[] = ["purchase", "produce", "sale", "develop", "recruit"];
 
 // チュートリアルが残っているか
 export const hasTutorial: Ref<boolean> = computed(() => {

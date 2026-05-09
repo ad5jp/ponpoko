@@ -91,8 +91,8 @@ export function settleMonthly() {
     } else if (event.event_type === "material_burned") {
       // 材料火災・・・材料を減らし、特損を増やす
       const burned_material_cost = Math.round((material / material_count) * (event.material_burned_amount ?? 0));
-      product -= burned_material_cost;
-      product_count -= event.material_burned_amount ?? 0;
+      material -= burned_material_cost;
+      material_count -= event.material_burned_amount ?? 0;
       special_expense += burned_material_cost;
     }
   });
@@ -105,7 +105,9 @@ export function settleMonthly() {
       material_count += result.purchased_count;
     } else if (result.action === "produce") {
       // 生産・・・原材料を増やし、商品を増やす。製造分の人件費も製造原価に組み入れる
-      const producing_material_cost = Math.round((material / material_count) * result.producing_count);
+      const producing_material_cost = material_count
+        ? Math.round((material / material_count) * result.producing_count)
+        : 0;
       material -= producing_material_cost;
       material_count -= result.producing_count;
       product += producing_material_cost + unit_labor_cost;
@@ -113,7 +115,7 @@ export function settleMonthly() {
       labor_cost -= unit_labor_cost;
     } else if (result.action === "sale") {
       // 販売・・・売上を増やし、商品を売上原価に振り返る。
-      const selling_product_cost = Math.round((product / product_count) * result.sale_count);
+      const selling_product_cost = product_count ? Math.round((product / product_count) * result.sale_count) : 0;
       sales += result.sale_total_price;
       product -= selling_product_cost;
       product_count -= result.sale_count;
@@ -140,21 +142,39 @@ export function settleMonthly() {
     special_expense
   });
 
-  store.commit("gameState/setYearlySettlement", {
-    year,
-    month,
-    cash,
-    material,
-    material_count,
-    product,
-    product_count,
-    sales: store.state.gameState.yearly_settlement.sales + sales,
-    sales_cost: store.state.gameState.yearly_settlement.sales_cost + sales_cost,
-    advertising: store.state.gameState.yearly_settlement.advertising + advertising,
-    labor_cost: store.state.gameState.yearly_settlement.labor_cost + labor_cost,
-    rent: store.state.gameState.yearly_settlement.rent + rent,
-    special_expense: store.state.gameState.yearly_settlement.special_expense + special_expense
-  });
+  if (month === 4) {
+    store.commit("gameState/setYearlySettlement", {
+      year,
+      month,
+      cash,
+      material,
+      material_count,
+      product,
+      product_count,
+      sales,
+      sales_cost,
+      advertising,
+      labor_cost,
+      rent,
+      special_expense
+    });
+  } else {
+    store.commit("gameState/setYearlySettlement", {
+      year,
+      month,
+      cash,
+      material,
+      material_count,
+      product,
+      product_count,
+      sales: store.state.gameState.yearly_settlement.sales + sales,
+      sales_cost: store.state.gameState.yearly_settlement.sales_cost + sales_cost,
+      advertising: store.state.gameState.yearly_settlement.advertising + advertising,
+      labor_cost: store.state.gameState.yearly_settlement.labor_cost + labor_cost,
+      rent: store.state.gameState.yearly_settlement.rent + rent,
+      special_expense: store.state.gameState.yearly_settlement.special_expense + special_expense
+    });
+  }
 }
 
 // 粗利

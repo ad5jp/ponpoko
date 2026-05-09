@@ -53,20 +53,23 @@
 
 <template>
   <div class="screen">
-    <header v-if="gameState.scene !== 'start'" class="status-bar">
-      <div class="status-item"><label>所持金</label>{{ gameState.cash }} <small>ドングリ</small></div>
-      <div class="status-item"><label>商品</label>{{ gameState.product }} <small>個</small></div>
-      <div class="status-item"><label>材料</label>{{ gameState.material }} <small>個</small></div>
-      <div class="status-month">
-        {{ gameState.month }}月 <small>({{ gameState.year }}年目)</small>
-      </div>
+    <header class="status-bar">
+      <h1 v-if="gameState.scene === 'start'" class="status-title">ぽんぽこ商会</h1>
+      <template v-else>
+        <div class="status-item"><label>所持金</label>{{ gameState.cash }} <small>ドングリ</small></div>
+        <div class="status-item"><label>商品</label>{{ gameState.product }} <small>個</small></div>
+        <div class="status-item"><label>材料</label>{{ gameState.material }} <small>個</small></div>
+        <div class="status-month">
+          {{ gameState.month }}月 <small>({{ gameState.year }}年目)</small>
+        </div>
+      </template>
     </header>
 
     <main v-if="dialog_step < dialogs.length" class="scene-dialog">
       <img class="dialog-image" :src="image(dialogs[dialog_step].image)" />
-      <div class="dialog-message">
+      <div class="dialog-message" @click="nextDialog">
         <div class="dialog-text">{{ dialogs[dialog_step].message }}<br />&nbsp;</div>
-        <button class="dialog-button" @click="nextDialog">▼</button>
+        <button class="dialog-button">▼</button>
       </div>
     </main>
 

@@ -96,7 +96,7 @@ const eventProductStolen = () => {
 // 材料が火事で燃える
 const eventMaterialBurned = () => {
   // 0個ならスルー
-  if (store.state.gameState.product <= 3) {
+  if (store.state.gameState.material <= 3) {
     return null;
   }
 
@@ -150,14 +150,12 @@ const fireEvents = () => {
 
   // 各社員は5%の確率で退職する
   store.state.gameState.staffs.forEach((staff) => {
-    console.log(staff.code);
     if (staff.isChief) {
       return;
     }
 
     if (chance(5)) {
       store.commit("gameState/removeStaff", staff);
-      console.log("RESIGN");
       store.commit(
         "gameState/addEvent",
         newEvent({

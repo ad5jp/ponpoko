@@ -84,7 +84,7 @@ export const gameState = {
       state.results = [];
       state.monthly_settlement = newSettlement({});
       state.yearly_settlement = newSettlement({});
-      state.sale_price = 30;
+      state.sale_price = 35;
       state.purchase_count = 10;
       state.last_staff_code = 1;
     },

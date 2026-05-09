@@ -22,7 +22,7 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
     });
     dialogs.push({
       image: null,
-      message: "あなたは今日から、「ポンポコ商会」の社長になります。"
+      message: "あなたは今日から、「ポンポコ商会」の社長です！"
     });
     dialogs.push({
       image: null,
@@ -42,8 +42,8 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
       });
     }
 
-    // チュートリアル中
     if (hasTutorial.value) {
+      // チュートリアル中
       if (nextTutorial.value === "purchase") {
         dialogs.push({
           image: null,
@@ -56,21 +56,58 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
       } else if (nextTutorial.value === "produce") {
         dialogs.push({
           image: null,
-          message: "材料が手に入ったら商品を作ります。"
+          message: "材料が買えましたね！"
         });
         dialogs.push({
           image: null,
-          message: "今月は、商品を生産しましょう。"
+          message: "材料の価格はどんどん変動します。"
+        });
+        dialogs.push({
+          image: null,
+          message: "いまの価格は「調達市場」メニューでチェックできますよ。"
+        });
+        dialogs.push({
+          image: null,
+          message: "今月は、買った材料で商品を作りましょう。"
         });
       } else if (nextTutorial.value === "sale") {
         dialogs.push({
           image: null,
-          message: store.state.gameState.playerName + "社長、いよいよ、商品を売りましょう。"
+          message: "商品ができました！"
+        });
+        dialogs.push({
+          image: null,
+          message: "会社は、お金がなくなると倒産してしまいます。"
+        });
+        dialogs.push({
+          image: null,
+          message: "作った商品を売って、お金を稼ぎましょう！"
+        });
+      } else if (nextTutorial.value === "develop") {
+        dialogs.push({
+          image: null,
+          message: "商品が売れましたね！"
+        });
+        dialogs.push({
+          image: null,
+          message: "商品を売るには、ライバルの情報も重要です。"
+        });
+        dialogs.push({
+          image: null,
+          message: "「販売市場」メニューをチェックしてくださいね。"
+        });
+        dialogs.push({
+          image: null,
+          message: "また、良い商品ほど高く売ることができます。今月は、商品を改良してみましょう。"
         });
       } else if (nextTutorial.value === "recruit") {
         dialogs.push({
           image: null,
-          message: store.state.gameState.playerName + "社長、ひとりで全部やるのは大変ですよね。"
+          message: "商品が良くなりました！これで売れやすくなるはずです！"
+        });
+        dialogs.push({
+          image: null,
+          message: "でも、ひとりで全部やるのは大変ですよね。"
         });
         dialogs.push({
           image: null,
@@ -78,6 +115,7 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
         });
       }
     } else {
+      // チュートリアル終了後
       dialogs.push({
         image: null,
         message: store.state.gameState.playerName + "社長、" + store.state.gameState.month + "月になりました。"
@@ -198,25 +236,25 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
           image: result.staff.image,
           message: `${result.staff.name}さんが、商品を1個 ${result.sale_unit_price} ドングリで ${result.sale_count} 個売りました（合計 ${result.sale_total_price} ドングリ）。`
         });
-        if (result.sale_price_advantage > 3) {
+        if (result.sale_price_advantage > 4) {
           dialogs.push({
             image: result.staff.image,
-            message: "ライバル商品に比べ、とてもお得感があるようです。"
+            message: "ライバル商品よりお得で、売れやすいようです。"
           });
-        } else if (result.sale_price_advantage > 0) {
+        } else if (result.sale_price_advantage > 1) {
           dialogs.push({
             image: result.staff.image,
-            message: "ライバルに商品比べ、ややお得感があるようです。"
+            message: "ライバル商品より少しお得で、やや売れやすいようです。"
           });
-        } else if (result.sale_price_advantage < -3) {
+        } else if (result.sale_price_advantage < -4) {
           dialogs.push({
             image: result.staff.image,
-            message: "ライバル商品の方が、とてもお得感があるようです。"
+            message: "ライバル商品に押され、売れにくいようです。"
           });
-        } else if (result.sale_price_advantage < 0) {
+        } else if (result.sale_price_advantage < 1) {
           dialogs.push({
             image: result.staff.image,
-            message: "ライバル商品の方が、ややお得感があるようです。"
+            message: "ライバル商品にやや押され、少し売れにくいようです。"
           });
         }
       }
@@ -270,7 +308,7 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
           });
         } else {
           dialogs.push({
-            image: null,
+            image: "chara00-sad",
             message: "残念ながら、応募が来ませんでした。"
           });
         }

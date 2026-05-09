@@ -155,7 +155,7 @@
         </button>
         <button
           @click="decision_action = 'marketing'"
-          :disabled="hasTutorial && nextTutorial !== 'marketing'"
+          :disabled="gameState.cash <= 0 || (hasTutorial && nextTutorial !== 'marketing')"
           class="decision-button"
         >
           宣伝をする
@@ -164,7 +164,7 @@
         <button
           v-if="gameState.staffs[decision_step]?.isChief"
           @click="decision_action = 'recruit'"
-          :disabled="hasTutorial && nextTutorial !== 'recruit'"
+          :disabled="gameState.cash <= 0 || (hasTutorial && nextTutorial !== 'recruit')"
           class="decision-button"
         >
           スタッフを募集する
@@ -173,8 +173,13 @@
     </template>
     <template v-if="decision_action == 'purchase'">
       <p>現在の材料価格は {{ gameState.material_price }}ドングリです。何個買いますか？</p>
-      <input type="number" v-model="decision_purchase_count" :disabled="nextTutorial === 'purchase'" />
-      <button @click="decidePurchase">決定</button>
+      <div class="decision-input">
+        <input type="number" v-model="decision_purchase_count" :disabled="nextTutorial === 'purchase'" />
+        <button @click="decidePurchase">決定</button>
+      </div>
+      <div class="decision-cancel">
+        <button @click="decision_action = null">やめる</button>
+      </div>
     </template>
     <template v-if="decision_action == 'produce'">
       <p>どのように作りますか？</p>
@@ -184,11 +189,19 @@
           素早くたくさん
         </button>
       </div>
+      <div class="decision-cancel">
+        <button @click="decision_action = null">やめる</button>
+      </div>
     </template>
     <template v-if="decision_action == 'sale'">
       <p>いくらで売りますか？</p>
-      <input type="number" v-model="decision_sale_price" :disabled="nextTutorial === 'sale'" />
-      <button @click="decideSale">決定</button>
+      <div class="decision-input">
+        <input type="number" v-model="decision_sale_price" :disabled="nextTutorial === 'sale'" />
+        <button @click="decideSale">決定</button>
+      </div>
+      <div class="decision-cancel">
+        <button @click="decision_action = null">やめる</button>
+      </div>
     </template>
     <template v-if="decision_action == 'develop'">
       <p>どのように改良しますか？</p>
@@ -196,6 +209,9 @@
         <button class="decision-button" @click="decideDevelop">もっと丈夫に</button>
         <button class="decision-button" @click="decideDevelop">もっと軽く</button>
         <button class="decision-button" @click="decideDevelop">もっとカッコよく</button>
+      </div>
+      <div class="decision-cancel">
+        <button @click="decision_action = null">やめる</button>
       </div>
     </template>
     <template v-if="decision_action == 'marketing'">
@@ -211,6 +227,9 @@
           テレビCM<br /><small>（{{ marketingMediaCost("tv") }}ドングリ）</small>
         </button>
       </div>
+      <div class="decision-cancel">
+        <button @click="decision_action = null">やめる</button>
+      </div>
     </template>
     <template v-if="decision_action == 'recruit'">
       <p>どんな人を募集しますか？</p>
@@ -220,6 +239,9 @@
         <button class="decision-button" @click="decideRecruit('sale')">販売が得意な人</button>
         <button class="decision-button" @click="decideRecruit('develop')">研究開発が得意な人</button>
         <button class="decision-button" @click="decideRecruit('marketing')">宣伝が得意な人</button>
+      </div>
+      <div class="decision-cancel">
+        <button @click="decision_action = null">やめる</button>
       </div>
     </template>
   </main>

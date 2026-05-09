@@ -36,6 +36,12 @@
 <template>
   <main class="scene-result">
     <h2 class="result-title">今月の結果</h2>
+    <div
+      v-if="gameState.monthly_settlement.product < 0 || gameState.monthly_settlement.material < 0"
+      class="alert alert-danger"
+    >
+      DEBUG: 値がおかしい
+    </div>
     <h3 class="result-subtitle">売上・費用・利益（PL）</h3>
     <table class="result-table">
       <tbody>
