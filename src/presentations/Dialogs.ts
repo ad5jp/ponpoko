@@ -36,7 +36,7 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
     // 初回のみ
     if (store.state.gameState.year === 1 && store.state.gameState.month === 4) {
       dialogs.push({
-        image: null,
+        image: "chara00-joyful",
         message: store.state.gameState.playerName + "社長、よろしくお願いします！"
       });
     }
@@ -87,44 +87,79 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
         store.state.gameState.events.forEach((event) => {
           if (event.event_type === "rival_price_down") {
             dialogs.push({
-              image: null,
+              image: "chara00-surprised",
               message: "カチカチ工業が商品の値段を " + event.rival_price_down_amount + "ドングリ 下げたようです。"
+            });
+            dialogs.push({
+              image: "chara00-surprised",
+              message: "我が社も販売価格を見直さなければいけないかもしれません。"
             });
           } else if (event.event_type === "rival_price_up") {
             dialogs.push({
-              image: null,
+              image: "chara00-surprised",
               message: "カチカチ工業が商品の値段を " + event.rival_price_up_amount + "ドングリ 上げたようです。"
+            });
+            dialogs.push({
+              image: "chara00-surprised",
+              message: "商品を売るチャンスです！"
             });
           } else if (event.event_type === "rival_new_product") {
             dialogs.push({
-              image: null,
+              image: "chara00-surprised",
               message: "カチカチ工業が新商品を発売したようです。"
+            });
+            dialogs.push({
+              image: "chara00-surprised",
+              message: "我が社も商品や、販売価格を見直さなければいけないかもしれません。"
             });
           } else if (event.event_type === "material_price_up") {
             dialogs.push({
-              image: null,
+              image: "chara00-sad",
               message: "材料の仕入れ価格が上がりました。"
             });
+            if (store.state.gameState.material_price > 12) {
+              dialogs.push({
+                image: "chara00-sad",
+                message: "まとめ買いして、材料費を安く抑えたいですね。"
+              });
+            }
           } else if (event.event_type === "material_price_down") {
             dialogs.push({
-              image: null,
+              image: "chara00-joyful",
               message: "材料の仕入れ価格が下がりました。"
             });
+            if (store.state.gameState.material_price < 11) {
+              dialogs.push({
+                image: "chara00-joyful",
+                message: "材料を安く仕入れるチャンスです！"
+              });
+            }
           } else if (event.event_type === "product_stolen") {
             dialogs.push({
-              image: null,
-              message: `商品倉庫にどろぼうが入ったようです。商品を${event.product_stolen_amount}個盗まれたようです。`
+              image: "chara00-sad",
+              message: "商品倉庫にどろぼうが入ったようです。"
+            });
+            dialogs.push({
+              image: "chara00-sad",
+              message: `商品を${event.product_stolen_amount}個盗まれてしまいました。`
             });
           } else if (event.event_type === "material_burned") {
             dialogs.push({
-              image: null,
-              message: `材料倉庫で火事が起こりました。材料が${event.material_burned_amount}個燃えてしまいました。`
+              image: "chara00-sad",
+              message: "材料倉庫で火事が起こりました。"
+            });
+            dialogs.push({
+              image: "chara00-sad",
+              message: `材料が${event.material_burned_amount}個燃えてしまいました。`
             });
           } else if (event.event_type === "social_media_buzzed") {
             dialogs.push({
-              image: null,
-              message:
-                "SNSで我が社の商品が話題になっているようです。知名度が上がりました。たくさん販売するチャンスです！"
+              image: "chara00-joyful",
+              message: "SNSで我が社の商品が話題になっているようです！"
+            });
+            dialogs.push({
+              image: "chara00-joyful",
+              message: "知名度が上がりました。商品をたくさん販売するチャンスです！"
             });
           }
         });

@@ -151,7 +151,7 @@ const fireEvents = () => {
   // ランダムイベント抽選
   const draw = random_int(0, lottery.length - 1);
   const createEvent = lottery[draw];
-  console.log("event", createEvent);
+
   if (typeof createEvent === "function") {
     const event = createEvent();
     if (event) {

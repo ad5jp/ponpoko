@@ -11,7 +11,6 @@ const sale = (staff: Staff, sale_unit_price: number) => {
   const rival_effective_price = store.state.gameState.rival_price - store.state.gameState.rival_strength * 3;
   // 価格差（価格有利であればプラス）
   let price_advantage = rival_effective_price - effective_price;
-  console.log(effective_price, rival_effective_price, price_advantage);
 
   // 最大販売可能数（能力と知名度に比例）
   let salable_count = shake(3 + staff.sale_skill * 3 + store.state.gameState.popularity * 3, 25);
