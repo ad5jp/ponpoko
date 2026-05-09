@@ -179,10 +179,18 @@
       <button class="window-close" @click="show_market_window = false">閉じる</button>
     </div>
 
-    <!-- TODO デザイン調整 -->
-    <div v-if="show_purchase_window" class="window window-staff">
-      <p>材料の価格: {{ gameState.material_price }}</p>
-      <p>材料の供給: 通常</p>
+    <div v-if="show_purchase_window" class="window window-purchase">
+      <h3>材料価格</h3>
+      <div class="purchase-chart">
+        <div
+          v-for="(history, i) of gameState.material_price_history"
+          :key="i"
+          class="purchase-chart-bar"
+          :class="'purchase-chart-bar-' + history"
+        ></div>
+      </div>
+      <p>現在の材料価格: {{ gameState.material_price }}</p>
+      <p>現在の材料供給: 平常</p>
       <button class="window-close" @click="show_purchase_window = false">閉じる</button>
     </div>
   </div>

@@ -432,6 +432,15 @@ body {
   overflow: scroll;
   background: #eee;
 }
+.window-close {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.25rem;
+  border: 1px solid #000;
+  background: #fff;
+  border-radius: 0.5rem;
+}
+
 .window-staff {
   padding: 0.5rem;
 }
@@ -458,4 +467,69 @@ body {
 }
 .staff-skill-star {
   color: #cc0;
+}
+
+.window-purchase {
+  padding: 0.5rem;
+}
+.purchase-chart {
+  position: relative;
+  width: 100%;
+  height: 10rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+  background: #fff;
+  border-left: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+.purchase-chart::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+.purchase-chart-bar {
+  width: 1rem;
+  height: 5rem;
+  background: #2e7d32;
+}
+.purchase-chart-bar-6 {
+  height: 3rem;
+}
+.purchase-chart-bar-7 {
+  height: 3.5rem;
+}
+.purchase-chart-bar-8 {
+  height: 4rem;
+}
+.purchase-chart-bar-9 {
+  height: 4.5rem;
+}
+.purchase-chart-bar-10 {
+  height: 5rem;
+}
+.purchase-chart-bar-11 {
+  height: 5.5rem;
+}
+.purchase-chart-bar-12 {
+  height: 6rem;
+}
+.purchase-chart-bar-13 {
+  height: 6.5rem;
+}
+.purchase-chart-bar-14 {
+  height: 7rem;
+}
+.purchase-chart-bar-15 {
+  height: 7.5rem;
+}
+.purchase-chart-bar-16 {
+  height: 8rem;
+}
+.purchase-chart-bar-17 {
+  height: 8.5rem;
 }

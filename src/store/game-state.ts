@@ -3,6 +3,7 @@ import { Action } from "@/models/Decision";
 import { Event } from "@/models/Event";
 import { Result } from "@/models/Result";
 import { Staff } from "@/models/Staff";
+import { store } from ".";
 
 export type Scene = "start" | "decision" | "result" | "settlement" | "game_over" | "finish";
 
@@ -35,6 +36,7 @@ export type GameState = {
   sale_price: number;
   purchase_count: number;
   last_staff_code: number;
+  material_price_history: number[];
 };
 
 export type NewGameParam = {
@@ -92,6 +94,7 @@ export const gameState = {
       state.sale_price = 35;
       state.purchase_count = 10;
       state.last_staff_code = 1;
+      state.material_price_history = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
     },
     toScene: (state: GameState, scene: Scene) => {
       state.scene = scene;
@@ -193,6 +196,10 @@ export const gameState = {
     },
     setLastStaffCode: (state: GameState, code: number) => {
       state.last_staff_code = code;
+    },
+    pushMaterialPriceHistory: (state: GameState, material_price: number) => {
+      state.material_price_history.shift();
+      state.material_price_history.push(material_price);
     }
   }
 };

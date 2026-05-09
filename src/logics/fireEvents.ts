@@ -148,23 +148,25 @@ const fireEvents = () => {
     return;
   }
 
-  // 各社員は5%の確率で退職する
-  store.state.gameState.staffs.forEach((staff) => {
-    if (staff.isChief) {
-      return;
-    }
+  // 各社員は5%の確率で退職する（2年目以降）
+  if (store.state.gameState.year >= 2) {
+    store.state.gameState.staffs.forEach((staff) => {
+      if (staff.isChief) {
+        return;
+      }
 
-    if (chance(5)) {
-      store.commit("gameState/removeStaff", staff);
-      store.commit(
-        "gameState/addEvent",
-        newEvent({
-          event_type: "staff_resigned",
-          staff_resigned: staff
-        })
-      );
-    }
-  });
+      if (chance(5)) {
+        store.commit("gameState/removeStaff", staff);
+        store.commit(
+          "gameState/addEvent",
+          newEvent({
+            event_type: "staff_resigned",
+            staff_resigned: staff
+          })
+        );
+      }
+    });
+  }
 
   // ランダムイベント抽選
   const draw = random_int(0, lottery.length - 1);
@@ -183,6 +185,9 @@ const fireEvents = () => {
   } else if (store.state.gameState.popularity > 2 && store.state.gameState.month % 2 === 0) {
     store.commit("gameState/decreasePopularity", 1);
   }
+
+  // 仕入価格の履歴を更新
+  store.commit("gameState/pushMaterialPriceHistory", store.state.gameState.material_price);
 };
 
 export default fireEvents;
