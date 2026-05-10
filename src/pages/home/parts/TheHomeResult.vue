@@ -17,8 +17,8 @@
   });
 
   const nextMonth = () => {
-    if (gameState.value.cash < 0) {
-      // 現金がマイナスになったらゲームオーバー
+    if (gameState.value.cash < 0 && gameState.value.mode !== "practice") {
+      // 現金がマイナスになったらゲームオーバー（PRACTICEモード除く）
       store.commit("gameState/toScene", "game_over");
       emit("close");
     } else if (gameState.value.month === 3) {

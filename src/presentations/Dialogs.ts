@@ -352,7 +352,11 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
         message: "今年は、" + income * -1 + "ドングリの赤字になってしまいました・・・"
       });
     }
-    if (store.state.gameState.year < 5) {
+    if (
+      (store.state.gameState.mode === "real" && store.state.gameState.year < 5) ||
+      (store.state.gameState.mode === "easy" && store.state.gameState.year < 3) ||
+      (store.state.gameState.mode === "practice" && store.state.gameState.year < 2)
+    ) {
       dialogs.push({
         image: null,
         message: "来年も頑張りましょう。"

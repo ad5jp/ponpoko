@@ -18,8 +18,12 @@
 
   // 次の年度へ
   const nextYear = () => {
-    if (gameState.value.year === 5) {
-      // 5年目で終了
+    if (
+      (gameState.value.mode === "real" && gameState.value.year === 5) ||
+      (gameState.value.mode === "easy" && gameState.value.year === 3) ||
+      (gameState.value.mode === "practice" && gameState.value.year === 2)
+    ) {
+      // 5年目で終了（EASYは3年・PRACTICEは2年）
       store.commit("gameState/toScene", "finish");
       emit("close");
     } else {

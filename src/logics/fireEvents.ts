@@ -4,8 +4,19 @@ import { chance, random_float, random_int } from "@/utilities/random";
 
 // ライバル商品の値下げ
 const eventRivalPriceDown = () => {
-  // 材料価格の2倍以下ならもう下げない
-  if (store.state.gameState.rival_price <= store.state.gameState.material_price * 2) {
+  // 各年度ごとの下限
+  let limit = 35;
+  if (store.state.gameState.year === 2) {
+    limit = 32;
+  } else if (store.state.gameState.year === 3) {
+    limit = 29;
+  } else if (store.state.gameState.year === 4) {
+    limit = 26;
+  } else if (store.state.gameState.year === 5) {
+    limit = 23;
+  }
+
+  if (store.state.gameState.rival_price <= limit) {
     return null;
   }
 
@@ -20,8 +31,8 @@ const eventRivalPriceDown = () => {
 
 // ライバル商品の値上げ
 const eventRivalPriceUp = () => {
-  // 材料価格の2.25倍以上なら上げない
-  if (store.state.gameState.rival_price > store.state.gameState.material_price * 2.25) {
+  // 材料価格の2倍以上なら上げない
+  if (store.state.gameState.rival_price > store.state.gameState.material_price * 2) {
     return null;
   }
 
@@ -36,8 +47,19 @@ const eventRivalPriceUp = () => {
 
 // ライバルの新商品
 const eventRivalNewProduct = () => {
-  // 6以上ならもう上げない
-  if (store.state.gameState.rival_strength >= 6) {
+  // 各年度ごとの上限
+  let limit = 4;
+  if (store.state.gameState.year === 2) {
+    limit = 5;
+  } else if (store.state.gameState.year === 3) {
+    limit = 6;
+  } else if (store.state.gameState.year === 4) {
+    limit = 7;
+  } else if (store.state.gameState.year === 5) {
+    limit = 8;
+  }
+
+  if (store.state.gameState.rival_price <= limit) {
     return null;
   }
 
@@ -78,6 +100,16 @@ const eventMaterialPriceDown = () => {
 
 // 商品が盗まれる
 const eventProductStolen = () => {
+  // リアルモードのみ
+  if (store.state.gameState.mode !== "real") {
+    return null;
+  }
+
+  // 2年目以降のみ
+  if (store.state.gameState.year === 1) {
+    return null;
+  }
+
   // 3個以下ならスルー
   if (store.state.gameState.product <= 3) {
     return null;
@@ -95,6 +127,16 @@ const eventProductStolen = () => {
 
 // 材料が火事で燃える
 const eventMaterialBurned = () => {
+  // リアルモードのみ
+  if (store.state.gameState.mode !== "real") {
+    return null;
+  }
+
+  // 2年目以降のみ
+  if (store.state.gameState.year === 1) {
+    return null;
+  }
+
   // 0個ならスルー
   if (store.state.gameState.material <= 3) {
     return null;
@@ -123,10 +165,10 @@ const eventSocialMediaBuzzed = () => {
 const lottery = (() => {
   let lots: Function[] = [];
 
-  lots = lots.concat(new Array(10).fill(eventRivalPriceDown));
+  lots = lots.concat(new Array(20).fill(eventRivalPriceDown));
   lots = lots.concat(new Array(10).fill(eventRivalPriceUp));
-  lots = lots.concat(new Array(5).fill(eventRivalNewProduct));
-  lots = lots.concat(new Array(10).fill(eventMaterialPriceUp));
+  lots = lots.concat(new Array(10).fill(eventRivalNewProduct));
+  lots = lots.concat(new Array(15).fill(eventMaterialPriceUp));
   lots = lots.concat(new Array(10).fill(eventMaterialPriceDown));
   lots = lots.concat(new Array(5).fill(eventProductStolen));
   lots = lots.concat(new Array(5).fill(eventMaterialBurned));
@@ -148,8 +190,8 @@ const fireEvents = () => {
     return;
   }
 
-  // 各社員は5%の確率で退職する（2年目以降）
-  if (store.state.gameState.year >= 2) {
+  // 各社員は5%の確率で退職する（2年目以降・REALモードのみ）
+  if (store.state.gameState.year >= 2 && store.state.gameState.mode === "real") {
     store.state.gameState.staffs.forEach((staff) => {
       if (staff.isChief) {
         return;

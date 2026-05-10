@@ -3,16 +3,17 @@ import { Action } from "@/models/Decision";
 import { Event } from "@/models/Event";
 import { Result } from "@/models/Result";
 import { Staff } from "@/models/Staff";
-import { store } from ".";
+
+export type Mode = "practice" | "easy" | "real";
 
 export type Scene = "start" | "decision" | "result" | "settlement" | "game_over" | "finish";
 
 export type GameState = {
   // ゲーム状態
   version: string;
+  mode: Mode;
   playerName: string;
   scene: Scene;
-  mode: "easy" | "normal" | "real";
   year: number;
   month: number;
   tutorial: Array<Action>;
@@ -42,7 +43,7 @@ export type GameState = {
 
 export type NewGameParam = {
   playerName: string;
-  mode: "easy" | "normal" | "real";
+  mode: Mode;
 };
 
 export const gameState = {
@@ -55,14 +56,22 @@ export const gameState = {
   getters: {
     wholeMonths: (state: GameState) => {
       return (state.year - 1) * 12 + (state.month < 4 ? state.month + 9 : state.month - 3);
+    },
+    modeName: (state: GameState) => {
+      if (state.mode === "easy") {
+        return "EASYモード";
+      } else if (state.mode === "real") {
+        return "REALモード";
+      }
+      return "練習モード";
     }
   },
   mutations: {
     // ゲーム状態
     startNewGame: (state: GameState, param: NewGameParam) => {
-      state.version = "1.0";
-      state.playerName = param.playerName;
+      state.version = "1.1";
       state.mode = param.mode;
+      state.playerName = param.playerName;
       state.scene = "decision";
       state.year = 1;
       state.month = 4;

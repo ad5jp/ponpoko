@@ -5,7 +5,7 @@
 </script>
 
 <script setup lang="ts">
-  import { computed, ref } from "vue";
+  import { computed, Ref, ref } from "vue";
   import { store } from "@/store";
   import { dialogs } from "@/presentations/Dialogs";
   import TheHomeResult from "./parts/TheHomeResult.vue";
@@ -14,9 +14,11 @@
   import TheHomeSettlement from "./parts/TheHomeSettlement.vue";
   import { net_assets } from "@/logics/settle";
   import SettlementTable from "./parts/SettlementTable.vue";
+  import { Mode } from "@/store/game-state";
 
   // 入力用ref
   const newPlayerName = ref("ぽん");
+  const newGameMode: Ref<Mode> = ref("real");
   const dialog_step = ref(0);
 
   // サブウィンドウ表示用ref
@@ -33,7 +35,7 @@
   const startNewGame = () => {
     store.commit("gameState/startNewGame", {
       playerName: newPlayerName.value,
-      mode: "easy"
+      mode: newGameMode.value
     });
     dialog_step.value = 0;
   };
@@ -82,6 +84,30 @@
       <img :src="image('chara01')" class="start-image" alt="" />
       <label class="start-label">お名前</label>
       <input v-model="newPlayerName" type="text" class="start-input" />
+      <label class="start-label">経験</label>
+      <div class="start-mode">
+        <button
+          class="start-mode-choice"
+          :class="{ 'start-mode-choice-active': newGameMode === 'real' }"
+          @click="newGameMode = 'real'"
+        >
+          経営のプロです <small>（REALモード・5年）</small>
+        </button>
+        <button
+          class="start-mode-choice"
+          :class="{ 'start-mode-choice-active': newGameMode === 'easy' }"
+          @click="newGameMode = 'easy'"
+        >
+          経営初心者です <small>（EASYモード・3年）</small>
+        </button>
+        <button
+          class="start-mode-choice"
+          :class="{ 'start-mode-choice-active': newGameMode === 'practice' }"
+          @click="newGameMode = 'practice'"
+        >
+          練習中です <small>（練習モード・2年）</small>
+        </button>
+      </div>
       <button class="start-button" @click="startNewGame">決定</button>
     </main>
 
@@ -101,7 +127,7 @@
         >
         <span v-else>（ー{{ 500 - net_assets(gameState.yearly_settlement) }}）</span>
         <br />
-        <small>ゲームバージョン：{{ gameState.version }}</small>
+        <small>{{ store.getters["gameState/modeName"] }}（version {{ gameState.version }}）</small>
       </div>
       <div class="finish-restart">
         <button @click="newGame">もう一度チャレンジする</button>
@@ -114,7 +140,7 @@
       <div class="game-over-result">
         記録：{{ gameState.year }}年目 {{ gameState.month }}月（{{ store.getters["gameState/wholeMonths"] }}ヶ月）
         <br />
-        <small>ゲームバージョン：{{ gameState.version }}</small>
+        <small>{{ store.getters["gameState/modeName"] }}（version {{ gameState.version }}）</small>
       </div>
       <div class="game-over-restart">
         <button @click="newGame">もう一度チャレンジする</button>
