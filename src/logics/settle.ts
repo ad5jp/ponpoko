@@ -187,13 +187,13 @@ export const general_expense = (settlement: Settlement) => {
   return settlement.advertising + settlement.labor_cost + settlement.rent;
 };
 
-// 営業利益
+// 営業利益（経常利益）
 export const operating_income = (settlement: Settlement) => {
   return gross_profit(settlement) - general_expense(settlement);
 };
 
-// 経常利益
-export const ordinary_income = (settlement: Settlement) => {
+// 当期純利益
+export const net_income = (settlement: Settlement) => {
   return operating_income(settlement) - settlement.special_expense;
 };
 

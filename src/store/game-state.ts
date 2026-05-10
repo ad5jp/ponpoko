@@ -9,6 +9,7 @@ export type Scene = "start" | "decision" | "result" | "settlement" | "game_over"
 
 export type GameState = {
   // ゲーム状態
+  version: string;
   playerName: string;
   scene: Scene;
   mode: "easy" | "normal" | "real";
@@ -59,6 +60,7 @@ export const gameState = {
   mutations: {
     // ゲーム状態
     startNewGame: (state: GameState, param: NewGameParam) => {
+      state.version = "1.0";
       state.playerName = param.playerName;
       state.mode = param.mode;
       state.scene = "decision";

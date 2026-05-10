@@ -2,7 +2,7 @@ import { marketingMediaName } from "@/models/Decision";
 import { store } from "@/store";
 import { computed, Ref } from "vue";
 import { hasTutorial, nextTutorial } from "./Tutorial";
-import { net_assets, ordinary_income } from "@/logics/settle";
+import { net_assets, net_income } from "@/logics/settle";
 
 export type Dialog = {
   image: string | null;
@@ -335,7 +335,7 @@ export const dialogs: Ref<Dialog[]> = computed(() => {
       image: null,
       message: store.state.gameState.year + "年目が終わりました。"
     });
-    const income = ordinary_income(store.state.gameState.yearly_settlement);
+    const income = net_income(store.state.gameState.yearly_settlement);
     if (income >= 100) {
       dialogs.push({
         image: "chara00-joyful",

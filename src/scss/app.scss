@@ -248,6 +248,7 @@ body {
   padding: 0.5rem 0.25rem;
   border: none;
   background: none;
+  color: #000;
   font-size: 0.5rem;
 }
 
@@ -297,7 +298,11 @@ body {
 }
 .start-button {
   width: 100%;
-  padding: 1rem 2rem;
+  padding: 0.25rem 0.5rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
 }
 
 .scene-decision {
@@ -374,12 +379,14 @@ body {
   font-weight: normal;
   font-size: 0.7rem;
   border-bottom: 1px solid #000;
+  background: #fff;
 }
 .result-table td {
   text-align: right;
   padding: 0.1rem 0.5rem;
   font-size: 0.7rem;
   border-bottom: 1px solid #000;
+  background: #fff;
 }
 .result-table .highlight th,
 .result-table .highlight td {
@@ -468,6 +475,7 @@ body {
   border: 1px solid #000;
   background: #fff;
   border-radius: 0.5rem;
+  color: #000;
 }
 
 .window-staff {
@@ -561,4 +569,21 @@ body {
 }
 .purchase-chart-bar-17 {
   height: 8.5rem;
+}
+
+.window-balance {
+  padding: 0.5rem;
+}
+
+.window-system {
+  padding: 1rem;
+}
+.system-restart {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.25rem;
+  border: 1px solid #c00;
+  background: #fff;
+  border-radius: 0.5rem;
+  color: #c00;
 }

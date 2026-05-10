@@ -13,6 +13,7 @@
   import { image, loadImageStore } from "@/utilities/image";
   import TheHomeSettlement from "./parts/TheHomeSettlement.vue";
   import { net_assets } from "@/logics/settle";
+  import SettlementTable from "./parts/SettlementTable.vue";
 
   // 入力用ref
   const newPlayerName = ref("ぽん");
@@ -22,6 +23,8 @@
   const show_staff_window = ref(false);
   const show_market_window = ref(false);
   const show_purchase_window = ref(false);
+  const show_balance_window = ref(false);
+  const show_system_window = ref(false);
 
   const gameState = computed(() => {
     return store.state.gameState;
@@ -46,6 +49,7 @@
   const newGame = () => {
     dialog_step.value = 0;
     store.commit("gameState/toScene", "start");
+    show_system_window.value = false;
   };
 
   // 画像
@@ -96,6 +100,8 @@
           >（＋{{ net_assets(gameState.yearly_settlement) - 500 }}）</span
         >
         <span v-else>（ー{{ 500 - net_assets(gameState.yearly_settlement) }}）</span>
+        <br />
+        <small>ゲームバージョン：{{ gameState.version }}</small>
       </div>
       <div class="finish-restart">
         <button @click="newGame">もう一度チャレンジする</button>
@@ -107,6 +113,8 @@
       <h2 class="game-over-title">倒産</h2>
       <div class="game-over-result">
         記録：{{ gameState.year }}年目 {{ gameState.month }}月（{{ store.getters["gameState/wholeMonths"] }}ヶ月）
+        <br />
+        <small>ゲームバージョン：{{ gameState.version }}</small>
       </div>
       <div class="game-over-restart">
         <button @click="newGame">もう一度チャレンジする</button>
@@ -117,7 +125,8 @@
       <button class="menu-item" @click="show_staff_window = true">スタッフ</button>
       <button class="menu-item" @click="show_market_window = true">販売市場</button>
       <button class="menu-item" @click="show_purchase_window = true">調達市場</button>
-      <button class="menu-item" @click="newGame">NEW<br />GAME</button>
+      <button class="menu-item" @click="show_balance_window = true">試算表</button>
+      <button class="menu-item" @click="show_system_window = true">システム</button>
     </footer>
 
     <div v-if="show_staff_window" class="window window-staff">
@@ -208,6 +217,18 @@
       <p>現在の材料価格: {{ gameState.material_price }}</p>
       <p>現在の材料供給: 平常</p>
       <button class="window-close" @click="show_purchase_window = false">閉じる</button>
+    </div>
+
+    <div v-if="show_balance_window" class="window window-balance">
+      <h3>試算表</h3>
+      <SettlementTable :settlement="gameState.yearly_settlement" />
+      <button class="window-close" @click="show_balance_window = false">閉じる</button>
+    </div>
+
+    <div v-if="show_system_window" class="window window-system">
+      <p>バージョン : {{ gameState.version }}</p>
+      <button class="system-restart" @click="newGame">最初からやり直す</button>
+      <button class="window-close" @click="show_system_window = false">閉じる</button>
     </div>
   </div>
 </template>
